@@ -14,8 +14,16 @@ $ npm test
 
 **Serve**
 
+_Production_
+
 ```sh
 $ npm start
+```
+
+_Development_
+
+```sh
+$ npm run dev
 ```
 
 ## Deployment
