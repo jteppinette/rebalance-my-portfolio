@@ -1,9 +1,13 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { render } from 'react-dom'
 
-class App extends React.Component {
+class App extends Component {
   render () {
-    return <h1>Hello!</h1>
+    return (
+      <div className='App'>
+        <h1>Hello!</h1>
+      </div>
+    )
   }
 }
 
