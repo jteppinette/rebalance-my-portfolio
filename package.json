@@ -4,12 +4,12 @@
   "engines": {
     "node": "14.x"
   },
-  "main": "server.js",
+  "main": "server",
   "scripts": {
-    "watch:server": "nodemon server.js",
-    "watch:client": "parcel watch index.html",
-    "build": "parcel build index.html",
-    "start": "node server.js"
+    "watch:server": "nodemon server",
+    "watch:client": "parcel watch client/index.html",
+    "build": "parcel build client/index.html",
+    "start": "node server"
   },
   "dependencies": {
     "express": "^4.15.2",
