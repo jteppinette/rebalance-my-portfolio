@@ -1,4 +1,4 @@
-## Getting Started
+## Development
 
 **Setup**
 
@@ -6,24 +6,25 @@
 $ npm install
 ```
 
-**Tests**
+**Watch**
+
+_Client_
 
 ```sh
-$ npm test
+$ npm run watch:client
 ```
 
-**Serve**
-
-_Production_
+_Server_
 
 ```sh
+$ npm run watch:server
+```
+
+## Production
+
+```sh
+$ npm run build
 $ npm start
-```
-
-_Development_
-
-```sh
-$ npm run dev
 ```
 
 ## Deployment
