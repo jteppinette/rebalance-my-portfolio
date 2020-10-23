@@ -13,11 +13,13 @@
   },
   "dependencies": {
     "express": "^4.15.2",
+    "primitive-ui": "^1.5.3",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.6",
-    "parcel-bundler": "^1.12.4"
+    "parcel-bundler": "^1.12.4",
+    "sass": "^1.27.0"
   }
 }
