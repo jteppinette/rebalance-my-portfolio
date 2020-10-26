@@ -1,1 +1,11 @@
 @import "primitive-ui/src/scss/main.scss";
+
+#resetInvestments {
+  float: right;
+}
+
+button:disabled {
+  border: 1px solid $button-background-hover;
+  background: $button-background-hover;
+  cursor: not-allowed;
+}
