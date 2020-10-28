@@ -1,7 +1,52 @@
 import React, { Component } from 'react'
 
+function Investment ({
+  index,
+  symbol,
+  balance,
+  target,
+  update,
+  remove,
+  isRemoveDisabled
+}) {
+  return (
+    <tr>
+      <td>
+        <input
+          type='text'
+          name={`symbol-${index}`}
+          value={symbol}
+          onChange={update}
+        />
+      </td>
+      <td>
+        <input
+          type='number'
+          name={`balance-${index}`}
+          value={balance}
+          onChange={update}
+        />
+      </td>
+      <td>
+        <input
+          type='number'
+          name={`target-${index}`}
+          value={target}
+          onChange={update}
+        />
+      </td>
+      <td></td>
+      <td className='text-center'>
+        <button type='button' onClick={remove} disabled={isRemoveDisabled}>
+          -
+        </button>
+      </td>
+    </tr>
+  )
+}
+
 class App extends Component {
-  initial = [{ symbol: '', currentBalance: 0, targetAllocation: 0 }]
+  initial = [{ symbol: '', balance: 0, target: 0 }]
   state = {
     investments: this.initial
   }
@@ -10,14 +55,11 @@ class App extends Component {
     const { investments } = this.state
 
     const addInvestment = this.addInvestment.bind(this),
-      removeInvestment = this.removeInvestment.bind(this),
-      updateInvestment = this.updateInvestment.bind(this),
-      handleSubmit = this.handleSubmit.bind(this),
-      handleChange = this.handleChange.bind(this)
+      cancelSubmit = this.cancelSubmit.bind(this)
 
     return (
       <div className='container'>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={cancelSubmit}>
           <table className='striped-table'>
             <thead>
               <tr>
@@ -31,45 +73,16 @@ class App extends Component {
             <tbody>
               {investments.map((investment, index) => {
                 return (
-                  <tr key={index}>
-                    <td>
-                      <input
-                        type='text'
-                        name={`symbol-${index}`}
-                        value={investment.symbol}
-                        id={`symbol-${index}`}
-                        onChange={handleChange}
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type='number'
-                        name={`currentBalance-${index}`}
-                        value={investment.currentBalance}
-                        id={`currentBalance-${index}`}
-                        onChange={handleChange}
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type='number'
-                        name={`targetAllocation-${index}`}
-                        value={investment.targetAllocation}
-                        id={`targetAllocation-${index}`}
-                        onChange={handleChange}
-                      />
-                    </td>
-                    <td></td>
-                    <td className='text-center'>
-                      <button
-                        type='button'
-                        onClick={() => removeInvestment(index)}
-                        disabled={investments.length <= 1}
-                      >
-                        -
-                      </button>
-                    </td>
-                  </tr>
+                  <Investment
+                    key={index}
+                    index={index}
+                    symbol={investment.symbol}
+                    balance={investment.balance}
+                    target={investment.target}
+                    update={this.updateInvestment.bind(this, index)}
+                    remove={this.removeInvestment.bind(this, index)}
+                    isRemoveDisabled={investments.length <= 1}
+                  />
                 )
               })}
             </tbody>
@@ -86,7 +99,7 @@ class App extends Component {
     this.setState({
       investments: [
         ...this.state.investments,
-        { symbol: '', currentBalance: 0, targetAllocation: 0 }
+        { symbol: '', balance: 0, target: 0 }
       ]
     })
   }
@@ -95,17 +108,15 @@ class App extends Component {
       investments: this.state.investments.filter((investment, i) => i !== index)
     })
   }
-  updateInvestment (index, field, value) {
-    let investments = this.state.investments
-    investments[index][field] = value
-    this.setState({ investments })
-  }
-  handleChange (event) {
+  updateInvestment (index, element) {
     const { name, value } = event.target
-    const [field, index] = name.split('-')
-    this.updateInvestment(index, field, value)
+    const [field] = name.split('-')
+
+    this.state.investments[index][field] = value
+
+    this.setState({ investments: this.state.investments })
   }
-  handleSubmit (event) {
+  cancelSubmit (event) {
     event.preventDefault()
     event.stopPropagation()
   }
