@@ -48,17 +48,29 @@ function Investment ({
 class App extends Component {
   initial = [{ symbol: '', balance: 0, target: 0 }]
   state = {
-    investments: this.initial
+    investments: this.initial,
+    deposit: 0
   }
 
   render () {
-    const { investments } = this.state
+    const { investments, deposit } = this.state
 
     const addInvestment = this.addInvestment.bind(this),
       cancelSubmit = this.cancelSubmit.bind(this)
 
     return (
       <div className='container'>
+        <form onSubmit={cancelSubmit}>
+          <label htmlFor='deposit'>Deposit</label>
+          <input
+            type='text'
+            name='deposit'
+            value={deposit}
+            onChange={({ target: { value } }) =>
+              this.setState({ deposit: value })
+            }
+          />
+        </form>
         <form onSubmit={cancelSubmit}>
           <table className='striped-table'>
             <thead>
