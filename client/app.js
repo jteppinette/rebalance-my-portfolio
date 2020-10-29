@@ -22,7 +22,7 @@ function Investment ({
       </td>
       <td>
         <Numeric
-          type='tel'
+          type='text'
           name={`balance-${index}`}
           value={balance}
           onChange={(event, value) => update('balance', value)}
@@ -31,7 +31,7 @@ function Investment ({
       </td>
       <td>
         <Numeric
-          type='tel'
+          type='text'
           name={`target-${index}`}
           value={target}
           onChange={(event, value) => update('target', value)}
@@ -68,7 +68,7 @@ class App extends Component {
         <form onSubmit={cancelSubmit}>
           <label htmlFor='deposit'>Deposit</label>
           <Numeric
-            type='tel'
+            type='text'
             name='deposit'
             value={deposit}
             onChange={(event, value) => this.setState({ deposit: value })}
