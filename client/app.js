@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Numeric from './numeric'
 
 function Investment ({
   index,
@@ -16,23 +17,27 @@ function Investment ({
           type='text'
           name={`symbol-${index}`}
           value={symbol}
-          onChange={update}
+          onChange={event => update('symbol', event.target.value)}
         />
       </td>
       <td>
-        <input
-          type='number'
+        <Numeric
+          type='tel'
           name={`balance-${index}`}
           value={balance}
-          onChange={update}
+          onChange={(event, value) => update('balance', value)}
+          predefined='dollar'
         />
       </td>
       <td>
-        <input
-          type='number'
+        <Numeric
+          type='tel'
           name={`target-${index}`}
           value={target}
-          onChange={update}
+          onChange={(event, value) => update('target', value)}
+          predefined='percentageUS2dec'
+          minimumValue={0}
+          maximumValue={100}
         />
       </td>
       <td></td>
@@ -62,13 +67,12 @@ class App extends Component {
       <div className='container'>
         <form onSubmit={cancelSubmit}>
           <label htmlFor='deposit'>Deposit</label>
-          <input
-            type='text'
+          <Numeric
+            type='tel'
             name='deposit'
             value={deposit}
-            onChange={({ target: { value } }) =>
-              this.setState({ deposit: value })
-            }
+            onChange={(event, value) => this.setState({ deposit: value })}
+            predefined='dollar'
           />
         </form>
         <form onSubmit={cancelSubmit}>
@@ -120,12 +124,8 @@ class App extends Component {
       investments: this.state.investments.filter((investment, i) => i !== index)
     })
   }
-  updateInvestment (index, element) {
-    const { name, value } = event.target
-    const [field] = name.split('-')
-
+  updateInvestment (index, field, value) {
     this.state.investments[index][field] = value
-
     this.setState({ investments: this.state.investments })
   }
   cancelSubmit (event) {

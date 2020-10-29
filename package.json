@@ -12,6 +12,7 @@
     "start": "node server"
   },
   "dependencies": {
+    "autonumeric": "^4.6.0",
     "express": "^4.15.2",
     "primitive-ui": "^1.5.3",
     "react": "^17.0.1",
