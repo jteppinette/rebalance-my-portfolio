@@ -18,6 +18,7 @@ function Investment ({
           name={`symbol-${index}`}
           value={symbol}
           onChange={event => update('symbol', event.target.value)}
+          className='form-control'
         />
       </td>
       <td>
@@ -27,6 +28,7 @@ function Investment ({
           value={balance}
           onChange={(event, value) => update('balance', value)}
           predefined='dollar'
+          className='form-control'
         />
       </td>
       <td>
@@ -38,12 +40,18 @@ function Investment ({
           predefined='percentageUS2dec'
           minimumValue={0}
           maximumValue={100}
+          className='form-control'
         />
       </td>
       <td></td>
-      <td className='text-center'>
-        <button type='button' onClick={remove} disabled={isRemoveDisabled}>
-          -
+      <td className='text-center align-middle'>
+        <button
+          type='button'
+          onClick={remove}
+          disabled={isRemoveDisabled}
+          className='btn btn-danger'
+        >
+          <i className='fas fa-minus'></i>
         </button>
       </td>
     </tr>
@@ -64,48 +72,85 @@ class App extends Component {
       cancelSubmit = this.cancelSubmit.bind(this)
 
     return (
-      <div className='container'>
-        <form onSubmit={cancelSubmit}>
-          <label htmlFor='deposit'>Deposit</label>
-          <Numeric
-            type='text'
-            name='deposit'
-            value={deposit}
-            onChange={(event, value) => this.setState({ deposit: value })}
-            predefined='dollar'
-          />
-        </form>
-        <form onSubmit={cancelSubmit}>
-          <table className='striped-table'>
-            <thead>
-              <tr>
-                <th>Symbol</th>
-                <th>Current Balance</th>
-                <th>Target Allocation</th>
-                <th>Rebalance</th>
-                <th className='text-center'>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {investments.map((investment, index) => {
-                return (
-                  <Investment
-                    key={index}
-                    index={index}
-                    symbol={investment.symbol}
-                    balance={investment.balance}
-                    target={investment.target}
-                    update={this.updateInvestment.bind(this, index)}
-                    remove={this.removeInvestment.bind(this, index)}
-                    isRemoveDisabled={investments.length <= 1}
+      <div>
+        <nav className='navbar navbar-dark bg-dark'>
+          <div className='navbar-brand mx-auto'>Rebalance My Portfolio</div>
+        </nav>
+        <div className='container'>
+          <form onSubmit={cancelSubmit}>
+            <div className='form-row justify-content-between'>
+              <div className='col-sm-12 col-md-auto'>
+                <label className='sr-only' htmlFor='deposit'>
+                  Deposit
+                </label>
+                <div className='input-group'>
+                  <div className='input-group-prepend'>
+                    <div className='input-group-text'>Deposit</div>
+                  </div>
+                  <Numeric
+                    type='text'
+                    name='deposit'
+                    value={deposit}
+                    onChange={(event, value) =>
+                      this.setState({ deposit: value })
+                    }
+                    predefined='dollar'
+                    className='form-control'
                   />
-                )
-              })}
-            </tbody>
-          </table>
-        </form>
-        <div>
-          <button onClick={addInvestment}>Add Investment</button>
+                </div>
+                <small className='form-text text-muted'>
+                  Provide a deposit amount to be rebalanced into your portfolio.
+                  <br />
+                  This is not required.
+                </small>
+              </div>
+            </div>
+          </form>
+          <form onSubmit={cancelSubmit}>
+            <div className='table-responsive'>
+              <table className='table table-striped table-bordered'>
+                <caption>
+                  Enter your portfolio's investments. Your required rebalance
+                  will be automatically calculated for each investment.
+                </caption>
+                <thead className='thead-dark'>
+                  <tr>
+                    <th>Symbol</th>
+                    <th>Current Balance</th>
+                    <th>Target Allocation</th>
+                    <th>Rebalance</th>
+                    <th className='text-center'>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {investments.map((investment, index) => {
+                    return (
+                      <Investment
+                        key={index}
+                        index={index}
+                        symbol={investment.symbol}
+                        balance={investment.balance}
+                        target={investment.target}
+                        update={this.updateInvestment.bind(this, index)}
+                        remove={this.removeInvestment.bind(this, index)}
+                        isRemoveDisabled={investments.length <= 1}
+                      />
+                    )
+                  })}
+                  <tr>
+                    <td colSpan='5'>
+                      <button
+                        onClick={addInvestment}
+                        className='btn btn-dark btn-block'
+                      >
+                        <i className='fas fa-plus'></i> Add Investment
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </form>
         </div>
       </div>
     )

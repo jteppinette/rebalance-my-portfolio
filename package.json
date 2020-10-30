@@ -12,9 +12,12 @@
     "start": "node server"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.1",
     "autonumeric": "^4.6.0",
+    "bootstrap": "^4.5.3",
     "express": "^4.15.2",
-    "primitive-ui": "^1.5.3",
+    "jquery": "^3.5.1",
+    "popper.js": "^1.16.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
   },
