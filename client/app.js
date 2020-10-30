@@ -109,10 +109,6 @@ class App extends Component {
           <form onSubmit={cancelSubmit}>
             <div className='table-responsive'>
               <table className='table table-striped table-bordered'>
-                <caption>
-                  Enter your portfolio's investments. Your required rebalance
-                  will be automatically calculated for each investment.
-                </caption>
                 <thead className='thead-dark'>
                   <tr>
                     <th>Symbol</th>
@@ -137,18 +133,19 @@ class App extends Component {
                       />
                     )
                   })}
-                  <tr>
-                    <td colSpan='5'>
-                      <button
-                        onClick={addInvestment}
-                        className='btn btn-dark btn-block'
-                      >
-                        <i className='fas fa-plus'></i> Add Investment
-                      </button>
-                    </td>
-                  </tr>
                 </tbody>
               </table>
+              <button
+                onClick={addInvestment}
+                className='btn btn-dark btn-block'
+              >
+                <i className='fas fa-plus'></i> Add Investment
+              </button>
+              <hr />
+              <p className='text-muted'>
+                Enter your portfolio's investments. Your required rebalance will
+                be automatically calculated for each investment.
+              </p>
             </div>
           </form>
         </div>
