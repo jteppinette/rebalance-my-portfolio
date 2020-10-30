@@ -135,19 +135,16 @@ class App extends Component {
                   })}
                 </tbody>
               </table>
-              <button
-                onClick={addInvestment}
-                className='btn btn-dark btn-block'
-              >
-                <i className='fas fa-plus'></i> Add Investment
-              </button>
-              <hr />
-              <p className='text-muted'>
-                Enter your portfolio's investments. Your required rebalance will
-                be automatically calculated for each investment.
-              </p>
             </div>
           </form>
+          <button onClick={addInvestment} className='btn btn-dark btn-block'>
+            <i className='fas fa-plus'></i> Add Investment
+          </button>
+          <hr />
+          <p className='text-muted'>
+            Enter your portfolio's investments. Your required rebalance will be
+            automatically calculated for each investment.
+          </p>
         </div>
       </div>
     )
