@@ -75,7 +75,9 @@ export default class Numeric extends React.Component {
       })
     }
 
-    if (hasValueChanged) this.autonumeric.set(this.props.value)
+    if (hasValueChanged && this.props.readOnly) {
+      this.autonumeric.set(this.props.value)
+    }
   }
   handleOnChange (event) {
     if (!this.props.onChange) return
