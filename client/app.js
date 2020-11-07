@@ -6,6 +6,7 @@ function Investment ({
   symbol,
   balance,
   target,
+  rebalance,
   update,
   remove,
   isRemoveDisabled
@@ -43,7 +44,16 @@ function Investment ({
           className='form-control'
         />
       </td>
-      <td></td>
+      <td>
+        <Numeric
+          type='text'
+          name={`rebalance-${index}`}
+          value={rebalance}
+          predefined='dollar'
+          readOnly={true}
+          className='form-control'
+        />
+      </td>
       <td className='text-center align-middle'>
         <button
           type='button'
@@ -59,7 +69,7 @@ function Investment ({
 }
 
 class App extends Component {
-  initial = [{ symbol: '', balance: 0, target: 0 }]
+  initial = [{ symbol: '', balance: 0, target: 1, rebalance: 0 }]
   state = {
     investments: this.initial,
     deposit: 0
@@ -91,9 +101,7 @@ class App extends Component {
                     type='text'
                     name='deposit'
                     value={deposit}
-                    onChange={(event, value) =>
-                      this.setState({ deposit: value })
-                    }
+                    onChange={(event, value) => this.updateDeposit(value)}
                     predefined='dollar'
                     className='form-control'
                   />
@@ -127,6 +135,7 @@ class App extends Component {
                         symbol={investment.symbol}
                         balance={investment.balance}
                         target={investment.target}
+                        rebalance={investment.rebalance}
                         update={this.updateInvestment.bind(this, index)}
                         remove={this.removeInvestment.bind(this, index)}
                         isRemoveDisabled={investments.length <= 1}
@@ -154,7 +163,7 @@ class App extends Component {
     this.setState({
       investments: [
         ...this.state.investments,
-        { symbol: '', balance: 0, target: 0 }
+        { symbol: '', balance: 0, target: 0, rebalance: 0 }
       ]
     })
   }
@@ -163,8 +172,48 @@ class App extends Component {
       investments: this.state.investments.filter((investment, i) => i !== index)
     })
   }
+  calculateRebalances (investments, deposit) {
+    const totalBalance =
+      this.state.investments.reduce(
+        (sum, investment) => (sum += investment.balance),
+        0
+      ) + deposit
+
+    return investments.reduce((result, investment, index) => {
+      if (totalBalance == 0) {
+        result[index] = 0
+        return result
+      }
+
+      let currentAllocation = investment.balance / totalBalance
+      let allocationDiff = investment.target - currentAllocation
+      let rebalance = allocationDiff * totalBalance
+
+      result[index] = rebalance
+      return result
+    }, {})
+  }
+  updateDeposit (deposit) {
+    const rebalances = this.calculateRebalances(this.state.investments, deposit)
+
+    Object.entries(rebalances).forEach(([index, rebalance]) => {
+      this.state.investments[index].rebalance = rebalance
+    })
+
+    this.setState({ investments: this.state.investments, deposit: deposit })
+  }
   updateInvestment (index, field, value) {
     this.state.investments[index][field] = value
+
+    const rebalances = this.calculateRebalances(
+      this.state.investments,
+      this.state.deposit
+    )
+
+    Object.entries(rebalances).forEach(([index, rebalance]) => {
+      this.state.investments[index].rebalance = rebalance
+    })
+
     this.setState({ investments: this.state.investments })
   }
   cancelSubmit (event) {
