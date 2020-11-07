@@ -49,6 +49,34 @@ export default class Numeric extends React.Component {
       watchExternalChanges: false
     })
   }
+
+  componentDidUpdate (props) {
+    const hasOptionsChanged =
+      JSON.stringify({ ...this.props, value: undefined }) !==
+      JSON.stringify({ ...props, value: undefined })
+
+    const hasValueChanged = this.props.value !== props.value
+
+    if (hasOptionsChanged) {
+      const predefined =
+        AutoNumeric.getPredefinedOptions()[this.props.predefined] || {}
+
+      this.autonumeric.update({
+        ...predefined,
+        ...this.props,
+        outputFormat: 'number',
+        onChange: undefined,
+        onFocus: undefined,
+        onBlur: undefined,
+        onKeyPress: undefined,
+        onKeyUp: undefined,
+        onKeyDown: undefined,
+        watchExternalChanges: false
+      })
+    }
+
+    if (hasValueChanged) this.autonumeric.set(this.props.value)
+  }
   handleOnChange (event) {
     if (!this.props.onChange) return
     this.props.onChange(event, this.autonumeric.getNumber())
