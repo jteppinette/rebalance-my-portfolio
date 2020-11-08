@@ -116,7 +116,7 @@ class App extends Component {
           </form>
           <form onSubmit={cancelSubmit}>
             <div className='table-responsive'>
-              <table className='table table-striped table-bordered'>
+              <table className='table table-striped table-bordered table-sm-sm'>
                 <thead className='thead-dark'>
                   <tr>
                     <th>Symbol</th>

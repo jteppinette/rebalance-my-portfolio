@@ -15,3 +15,15 @@ $fa-font-path: "../node_modules/@fortawesome/fontawesome-free/webfonts" !default
 form .table {
   margin-bottom: 0px;
 }
+
+@include media-breakpoint-down(sm) {
+  .table-sm-sm {
+    th,
+    td {
+      padding: $table-cell-padding-sm;
+    }
+    .form-control {
+      padding: 0.175rem 0.25rem;
+    }
+  }
+}
