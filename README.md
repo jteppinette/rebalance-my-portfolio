@@ -6,31 +6,14 @@
 $ npm install
 ```
 
-**Watch**
-
-_Client_
+**Watch & Serve**
 
 ```sh
-$ npm run watch:client
-```
-
-_Server_
-
-```sh
-$ npm run watch:server
+$ npm run dev
 ```
 
 ## Production
 
 ```sh
 $ npm run build
-$ npm start
-```
-
-## Deployment
-
-```sh
-$ heroku login
-$ heroku create
-$ git push heroku master
 ```
