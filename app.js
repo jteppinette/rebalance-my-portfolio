@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import Dinero from 'dinero.js'
+
 import Numeric from './numeric'
 
 function Investment ({
@@ -81,6 +83,9 @@ class App extends Component {
     const addInvestment = this.addInvestment.bind(this),
       cancelSubmit = this.cancelSubmit.bind(this)
 
+    const hasInvalidTargetAllocation =
+      investments.reduce((sum, investment) => sum + investment.target, 0) !== 1
+
     return (
       <div>
         <nav className='navbar navbar-dark bg-dark'>
@@ -146,6 +151,19 @@ class App extends Component {
               </table>
             </div>
           </form>
+          {hasInvalidTargetAllocation && (
+            <div className='card text-center mb-3'>
+              <div className='card-body'>
+                <h5 className='card-title text-warning'>
+                  Fully Allocate Portfolio
+                </h5>
+                <p className='card-text text-muted'>
+                  The sum of each investment's target allocation must equal 100%
+                  before the portfolio can be properly rebalanced.
+                </p>
+              </div>
+            </div>
+          )}
           <button onClick={addInvestment} className='btn btn-dark btn-block'>
             <i className='fas fa-plus'></i> Add Investment
           </button>
@@ -173,25 +191,34 @@ class App extends Component {
     })
   }
   calculateRebalances (investments, deposit) {
-    const totalBalance =
-      this.state.investments.reduce(
-        (sum, investment) => (sum += investment.balance),
-        0
-      ) + deposit
+    const totalBalance = investments
+      .reduce(
+        (sum, investment) =>
+          sum.add(Dinero({ amount: investment.balance * 100 })),
+        Dinero()
+      )
+      .add(Dinero({ amount: deposit * 100 }))
 
-    return investments.reduce((result, investment, index) => {
-      if (totalBalance == 0) {
-        result[index] = 0
-        return result
-      }
+    if (totalBalance.isZero()) {
+      return investments.map(() => 0)
+    }
 
-      let currentAllocation = investment.balance / totalBalance
-      let allocationDiff = investment.target - currentAllocation
-      let rebalance = allocationDiff * totalBalance
+    const hasInvalidTargetAllocation =
+      investments.reduce((sum, investment) => sum + investment.target, 0) !== 1
 
-      result[index] = rebalance
-      return result
-    }, {})
+    if (hasInvalidTargetAllocation) {
+      return investments.map(() => undefined)
+    }
+
+    return totalBalance
+      .allocate(investments.map(investment => investment.target))
+      .map((allocation, index) => {
+        return (
+          allocation
+            .subtract(Dinero({ amount: investments[index].balance * 100 }))
+            .getAmount() / 100
+        )
+      })
   }
   updateDeposit (deposit) {
     const rebalances = this.calculateRebalances(this.state.investments, deposit)
