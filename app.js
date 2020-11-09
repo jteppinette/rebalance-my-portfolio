@@ -108,6 +108,7 @@ class App extends Component {
                     value={deposit}
                     onChange={(event, value) => this.updateDeposit(value)}
                     predefined='dollar'
+                    minimumValue={0}
                     className='form-control'
                   />
                 </div>
