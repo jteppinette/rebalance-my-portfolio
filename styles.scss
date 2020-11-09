@@ -27,3 +27,17 @@ form .table {
     }
   }
 }
+
+.nav-tabs .nav-link {
+  color: $gray-700;
+  font-weight: $font-weight-light;
+
+  &.active {
+    font-weight: $font-weight-normal;
+  }
+}
+
+.accordion .btn-link {
+  color: $gray-700;
+  font-weight: $font-weight-normal;
+}

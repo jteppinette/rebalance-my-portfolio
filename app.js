@@ -2,73 +2,8 @@ import React, { Component } from 'react'
 import Dinero from 'dinero.js'
 
 import Numeric from './numeric'
-
-function Investment ({
-  index,
-  symbol,
-  balance,
-  target,
-  rebalance,
-  update,
-  remove,
-  isRemoveDisabled
-}) {
-  return (
-    <tr>
-      <td>
-        <input
-          type='text'
-          name={`symbol-${index}`}
-          value={symbol}
-          onChange={event => update('symbol', event.target.value)}
-          className='form-control'
-        />
-      </td>
-      <td>
-        <Numeric
-          type='text'
-          name={`balance-${index}`}
-          value={balance}
-          onChange={(event, value) => update('balance', value)}
-          predefined='dollar'
-          className='form-control'
-        />
-      </td>
-      <td>
-        <Numeric
-          type='text'
-          name={`target-${index}`}
-          value={target}
-          onChange={(event, value) => update('target', value)}
-          predefined='percentageUS2dec'
-          minimumValue={0}
-          maximumValue={100}
-          className='form-control'
-        />
-      </td>
-      <td>
-        <Numeric
-          type='text'
-          name={`rebalance-${index}`}
-          value={rebalance}
-          predefined='dollar'
-          readOnly={true}
-          className='form-control'
-        />
-      </td>
-      <td className='text-center align-middle'>
-        <button
-          type='button'
-          onClick={remove}
-          disabled={isRemoveDisabled}
-          className='btn btn-danger'
-        >
-          <i className='fas fa-minus'></i>
-        </button>
-      </td>
-    </tr>
-  )
-}
+import Investment from './investment'
+import Content from './content'
 
 class App extends Component {
   initial = [{ symbol: '', balance: 0, target: 1, rebalance: 0 }]
@@ -169,10 +104,22 @@ class App extends Component {
             <i className='fas fa-plus'></i> Add Investment
           </button>
           <hr />
-          <p className='text-muted'>
-            Enter your portfolio's investments. Your required rebalance will be
-            automatically calculated for each investment.
-          </p>
+          <Content />
+          <hr />
+          <div className='text-center'>
+            <small className='text-muted'>
+              If you have any questions or feedback, please reach out at{' '}
+              <a href='mailto:jteppinette@jteppinette.com'>
+                jteppinette@jteppinette.com
+              </a>
+              . All code is open sourced and available for audit or modification
+              at{' '}
+              <a href='https://github.com/jteppinette/rebalance-my-portfolio'>
+                GitHub
+              </a>
+              .
+            </small>
+          </div>
         </div>
       </div>
     )
