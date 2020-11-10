@@ -1,4 +1,19 @@
 import React, { Component } from 'react'
+import {
+  Button,
+  Container,
+  Row,
+  Col,
+  Card,
+  CardBody,
+  CardTitle,
+  CardText,
+  CardHeader,
+  ListGroup,
+  ListGroupItem,
+  Badge,
+  Collapse
+} from 'reactstrap'
 
 function About () {
   return (
@@ -72,152 +87,166 @@ function About () {
 
 function Guides () {
   return (
-    <div className='row'>
-      <div className='col-lg-6'>
-        <div className='card mb-3'>
-          <div className='card-body'>
-            <h5 className='card-title'>Rebalance Portfolio</h5>
-            <p className='card-text'>
+    <Row>
+      <Col lg='6'>
+        <Card className='mb-3'>
+          <CardBody>
+            <CardTitle tag='h5'>Rebalance Portfolio</CardTitle>
+            <CardText>
               I want to rebalance my portfolio without making a deposit or
               withdrawal.
-            </p>
-          </div>
-          <ul className='list-group list-group-flush'>
-            <li className='list-group-item d-flex justify-content-between align-items-center'>
-              <span className='badge badge-primary badge-pill'>Step One</span>
+            </CardText>
+          </CardBody>
+          <ListGroup flush>
+            <ListGroupItem className='d-flex justify-content-between align-items-center'>
+              <Badge color='primary' pill>
+                Step One
+              </Badge>
               Add Current Investments
-            </li>
-            <li className='list-group-item d-flex justify-content-between align-items-center'>
-              <span className='badge badge-primary badge-pill'>Step Two</span>
+            </ListGroupItem>
+            <ListGroupItem className='d-flex justify-content-between align-items-center'>
+              <Badge color='primary' pill>
+                Step Two
+              </Badge>
               Update Portfolio
-            </li>
-          </ul>
-          <div className='card-body'>
-            <p>
-              Each investment's rebalance cell will represent the change in
-              balance required to bring it back to the proper allocation. We
-              have left the <i>Deposit</i> field empty to indiciate that we will
-              only be using existing money to bring the portfolio back to an
-              appropriate asset allocation. This will result in some
-              investment's having a negative <i>Rebalance</i> value.
-            </p>
-          </div>
-        </div>
-      </div>
+            </ListGroupItem>
+          </ListGroup>
+          <CardBody>
+            Each investment's rebalance cell will represent the change in
+            balance required to bring it back to the proper allocation. We have
+            left the <i>Deposit</i> field empty to indiciate that we will only
+            be using existing money to bring the portfolio back to an
+            appropriate asset allocation. This will result in some investment's
+            having a negative <i>Rebalance</i> value.
+          </CardBody>
+        </Card>
+      </Col>
 
-      <div className='col-lg-6'>
-        <div className='card mb-3'>
-          <div className='card-body'>
-            <h5 className='card-title'>Add New Money</h5>
-            <p className='card-text'>
+      <Col lg='6'>
+        <Card className='mb-3'>
+          <CardBody>
+            <CardTitle tag='h5'>Add New Money</CardTitle>
+            <CardText>
               I want to add new money into my portfolio. The new money should be
               appropriately allocated as to bring my portfolio back to my
               desired asset allocation.
-            </p>
-          </div>
-          <ul className='list-group list-group-flush'>
-            <li className='list-group-item d-flex justify-content-between align-items-center'>
-              <span className='badge badge-primary badge-pill'>Step One</span>
+            </CardText>
+          </CardBody>
+          <ListGroup flush>
+            <ListGroupItem className='d-flex justify-content-between align-items-center'>
+              <Badge color='primary' pill>
+                Step One
+              </Badge>
               Set Deposit Amount
-            </li>
-            <li className='list-group-item d-flex justify-content-between align-items-center'>
-              <span className='badge badge-primary badge-pill'>Step Two</span>
+            </ListGroupItem>
+            <ListGroupItem className='d-flex justify-content-between align-items-center'>
+              <Badge color='primary' pill>
+                Step Two
+              </Badge>
               Add Current Investments
-            </li>
-            <li className='list-group-item d-flex justify-content-between align-items-center'>
-              <span className='badge badge-primary badge-pill'>Step Three</span>
+            </ListGroupItem>
+            <ListGroupItem className='d-flex justify-content-between align-items-center'>
+              <Badge color='primary' pill>
+                Step Three
+              </Badge>
               Update Portfolio
-            </li>
-          </ul>
-          <div className='card-body'>
-            <p>
-              Each investment's rebalance cell will represent the change in
-              balance required to bring it back to the proper allocation. This
-              will include a proper distribution of the newly deposited money.
-            </p>
-          </div>
-        </div>
-      </div>
+            </ListGroupItem>
+          </ListGroup>
+          <CardBody>
+            Each investment's rebalance cell will represent the change in
+            balance required to bring it back to the proper allocation. This
+            will include a proper distribution of the newly deposited money.
+          </CardBody>
+        </Card>
+      </Col>
 
-      <div className='col-lg-6'>
-        <div className='card mb-3'>
-          <div className='card-body'>
-            <h5 className='card-title'>Pull Out Money</h5>
-            <p className='card-text'>
+      <Col lg='6'>
+        <Card className='mb-3'>
+          <CardBody>
+            <CardTitle tag='h5'>Pull Out Money</CardTitle>
+            <CardText>
               I want to pull out money from my portfolio. The money should be
               appropriately withdrawn from each investment as to bring my
               portfolio back to the desired asset allocation.
-            </p>
-          </div>
-          <ul className='list-group list-group-flush'>
-            <li className='list-group-item d-flex justify-content-between align-items-center'>
-              <span className='badge badge-primary badge-pill'>Step One</span>
+            </CardText>
+          </CardBody>
+          <ListGroup flush>
+            <ListGroupItem className='d-flex justify-content-between align-items-center'>
+              <Badge color='primary' pill>
+                Step One
+              </Badge>
               Switch to Withdraw Mode
-            </li>
-            <li className='list-group-item d-flex justify-content-between align-items-center'>
-              <span className='badge badge-primary badge-pill'>Step Two</span>
+            </ListGroupItem>
+            <ListGroupItem className='d-flex justify-content-between align-items-center'>
+              <Badge color='primary' pill>
+                Step Two
+              </Badge>
               Set Withdraw Amount
-            </li>
-            <li className='list-group-item d-flex justify-content-between align-items-center'>
-              <span className='badge badge-primary badge-pill'>Step Three</span>
+            </ListGroupItem>
+            <ListGroupItem className='list-group-item d-flex justify-content-between align-items-center'>
+              <Badge color='primary' pill>
+                Step Three
+              </Badge>
               Add Current Investments
-            </li>
-            <li className='list-group-item d-flex justify-content-between align-items-center'>
-              <span className='badge badge-primary badge-pill'>Step Four</span>
+            </ListGroupItem>
+            <ListGroupItem className='d-flex justify-content-between align-items-center'>
+              <Badge color='primary' pill>
+                Step Four
+              </Badge>
               Update Portfolio
-            </li>
-          </ul>
-          <div className='card-body'>
-            <p>
-              Each investment's rebalance cell will represent the change in
-              balance required to bring it back to the proper allocation. The
-              total rebalance should equal the withdraw amount.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
+            </ListGroupItem>
+          </ListGroup>
+          <CardBody>
+            Each investment's rebalance cell will represent the change in
+            balance required to bring it back to the proper allocation. The
+            total rebalance should equal the withdraw amount.
+          </CardBody>
+        </Card>
+      </Col>
+    </Row>
   )
 }
 
 export default class Content extends Component {
-  render () {
-    const sections = [
-      { id: 'about', display: 'About', component: About },
-      { id: 'guides', display: 'Guides', component: Guides }
+  state = {
+    sections: [
+      { display: 'About', component: About, isOpen: false },
+      { display: 'Guides', component: Guides, isOpen: false }
     ]
+  }
+
+  render () {
+    const { sections } = this.state
 
     return (
-      <div className='accordion mb-3' id='content-accordion'>
+      <div className='accordion mb-3'>
         {sections.map((section, index) => {
           return (
-            <div className='card' key={index}>
-              <div className='card-header'>
-                <h2 className='mb-0'>
-                  <button
-                    className='btn btn-link btn-block text-left'
-                    type='button'
-                    data-toggle='collapse'
-                    data-target={`#${section.id}`}
-                  >
-                    {section.display}
-                  </button>
-                </h2>
-              </div>
+            <Card color='light' key={index}>
+              <CardHeader tag='h2' className='mb-0'>
+                <Button
+                  color='link'
+                  block
+                  onClick={() => this.toggleSection(index)}
+                >
+                  {section.display}
+                </Button>
+              </CardHeader>
 
-              <div
-                id={section.id}
-                className='collapse'
-                data-parent='#content-accordion'
-              >
-                <div className='card-body'>
+              <Collapse isOpen={section.isOpen}>
+                <CardBody>
                   <section.component />
-                </div>
-              </div>
-            </div>
+                </CardBody>
+              </Collapse>
+            </Card>
           )
         })}
       </div>
     )
+  }
+
+  toggleSection (index) {
+    this.state.sections[index].isOpen = !this.state.sections[index].isOpen
+    this.setState({ sections: this.state.sections })
   }
 }

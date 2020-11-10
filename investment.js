@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
 import Numeric from './numeric'
+import { Input, Button } from 'reactstrap'
 
 export default class Investment extends Component {
   render () {
@@ -18,12 +19,10 @@ export default class Investment extends Component {
     return (
       <tr>
         <td>
-          <input
-            type='text'
+          <Input
             name={`symbol-${index}`}
             value={symbol}
             onChange={event => update('symbol', event.target.value)}
-            className='form-control'
           />
         </td>
         <td>
@@ -59,14 +58,9 @@ export default class Investment extends Component {
           />
         </td>
         <td className='text-center align-middle'>
-          <button
-            type='button'
-            onClick={remove}
-            disabled={isRemoveDisabled}
-            className='btn btn-danger'
-          >
+          <Button onClick={remove} disabled={isRemoveDisabled} color='danger'>
             <i className='fas fa-minus'></i>
-          </button>
+          </Button>
         </td>
       </tr>
     )

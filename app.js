@@ -5,6 +5,25 @@ import Numeric from './numeric'
 import Investment from './investment'
 import Content from './content'
 
+import {
+  Col,
+  Container,
+  Form,
+  FormGroup,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText,
+  Label,
+  Table,
+  Button,
+  Navbar,
+  NavbarBrand,
+  Card,
+  CardBody,
+  CardTitle,
+  CardText
+} from 'reactstrap'
+
 class App extends Component {
   initial = [{ symbol: '', balance: 0, target: 1, rebalance: 0 }]
   state = {
@@ -36,29 +55,29 @@ class App extends Component {
 
     return (
       <div>
-        <nav className='navbar navbar-dark bg-dark'>
-          <div className='navbar-brand mx-auto'>Rebalance My Portfolio</div>
-        </nav>
-        <div className='container'>
-          <form onSubmit={cancelSubmit}>
-            <div className='form-row justify-content-between'>
-              <div className='col-sm-12 col-md-auto'>
-                <label className='sr-only' htmlFor='deposit'>
+        <Navbar dark className='bg-dark'>
+          <NavbarBrand className='mx-auto'>Rebalance My Portfolio</NavbarBrand>
+        </Navbar>
+        <Container>
+          <Form onSubmit={cancelSubmit}>
+            <FormGroup row className='justify-content-between'>
+              <Col sm='12' md='auto'>
+                <Label className='sr-only' htmlFor='deposit'>
                   Deposit
-                </label>
-                <div className='input-group'>
-                  <div className='input-group-prepend'>
-                    <button
-                      className='btn btn-secondary'
+                </Label>
+                <InputGroup>
+                  <InputGroupAddon addonType='prepend'>
+                    <Button
+                      color='secondary'
                       type='button'
                       onClick={() => this.updateWithdrawDeposit(0, !isDeposit)}
                     >
                       <i className='fas fa-exchange-alt'></i>
-                    </button>
-                    <div className='input-group-text'>
+                    </Button>
+                    <InputGroupText>
                       {isDeposit ? 'Deposit' : 'Withdraw'}
-                    </div>
-                  </div>
+                    </InputGroupText>
+                  </InputGroupAddon>
                   <Numeric
                     key={isDeposit}
                     type='text'
@@ -71,7 +90,7 @@ class App extends Component {
                     minimumValue={0}
                     className='form-control'
                   />
-                </div>
+                </InputGroup>
                 <small className='form-text text-muted'>
                   {isDeposit
                     ? 'Provide a deposit amount to be rebalanced into your portfolio.'
@@ -79,68 +98,68 @@ class App extends Component {
                   <br />
                   This is not required.
                 </small>
-              </div>
-            </div>
-          </form>
-          <form onSubmit={cancelSubmit}>
-            <div className='table-responsive'>
-              <table className='table table-striped table-bordered table-sm-sm'>
-                <thead className='thead-dark'>
-                  <tr>
-                    <th>Symbol</th>
-                    <th>Current Balance</th>
-                    <th>Target Allocation</th>
-                    <th>Rebalance</th>
-                    <th className='text-center'>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {investments.map((investment, index) => {
-                    return (
-                      <Investment
-                        key={index}
-                        index={index}
-                        symbol={investment.symbol}
-                        balance={investment.balance}
-                        target={investment.target}
-                        rebalance={investment.rebalance}
-                        update={this.updateInvestment.bind(this, index)}
-                        remove={this.removeInvestment.bind(this, index)}
-                        isRemoveDisabled={investments.length <= 1}
-                      />
-                    )
-                  })}
-                </tbody>
-              </table>
-            </div>
-          </form>
+              </Col>
+            </FormGroup>
+          </Form>
+          <Form onSubmit={cancelSubmit}>
+            <Table responsive striped bordered className='table-sm-sm'>
+              <thead className='thead-dark'>
+                <tr>
+                  <th>Symbol</th>
+                  <th>Current Balance</th>
+                  <th>Target Allocation</th>
+                  <th>Rebalance</th>
+                  <th className='text-center'>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {investments.map((investment, index) => {
+                  return (
+                    <Investment
+                      key={index}
+                      index={index}
+                      symbol={investment.symbol}
+                      balance={investment.balance}
+                      target={investment.target}
+                      rebalance={investment.rebalance}
+                      update={this.updateInvestment.bind(this, index)}
+                      remove={this.removeInvestment.bind(this, index)}
+                      isRemoveDisabled={investments.length <= 1}
+                    />
+                  )
+                })}
+              </tbody>
+            </Table>
+          </Form>
           {hasInvalidTargetAllocation && (
-            <div className='card text-center mb-3'>
-              <div className='card-body'>
-                <h5 className='card-title text-warning'>
+            <Card className='text-center mb-3'>
+              <CardBody>
+                <CardTitle tag='h5' className='text-warning'>
                   Fully Allocate Portfolio
-                </h5>
-                <p className='card-text text-muted'>
+                </CardTitle>
+                <CardText className='text-muted'>
                   The sum of each investment's target allocation must equal 100%
                   before the portfolio can be properly rebalanced.
-                </p>
-              </div>
-            </div>
+                </CardText>
+              </CardBody>
+            </Card>
           )}
           {hasInsufficientFunds && (
-            <div className='card text-center mb-3'>
-              <div className='card-body'>
-                <h5 className='card-title text-warning'>Insufficient Funds</h5>
-                <p className='card-text text-muted'>
+            <Card className='text-center mb-3'>
+              <CardBody className='card-body'>
+                <CardTitle tag='h5' className='text-warning'>
+                  Insufficient Funds
+                </CardTitle>
+                <CardText className='text-muted'>
                   Your {existingBalance.toFormat()} portfolio balance is less
                   than the withdraw amount.
-                </p>
-              </div>
-            </div>
+                </CardText>
+              </CardBody>
+            </Card>
           )}
-          <button onClick={addInvestment} className='btn btn-dark btn-block'>
+          <Button onClick={addInvestment} color='dark' block>
             <i className='fas fa-plus'></i> Add Investment
-          </button>
+          </Button>
           <hr />
           <Content />
           <hr />
@@ -158,7 +177,7 @@ class App extends Component {
               .
             </small>
           </div>
-        </div>
+        </Container>
       </div>
     )
   }
