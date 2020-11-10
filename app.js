@@ -4,6 +4,7 @@ import Dinero from 'dinero.js'
 import Numeric from './numeric'
 import Investment from './investment'
 import Content from './content'
+import Summary from './summary'
 
 import {
   Col,
@@ -29,29 +30,22 @@ class App extends Component {
   state = {
     investments: this.initial,
     withdrawDeposit: 0,
-    isDeposit: true
+    isDeposit: true,
+    hasInvalidTargetAllocation: false,
+    hasInsufficientFunds: false
   }
 
   render () {
-    const { investments, withdrawDeposit, isDeposit } = this.state
+    const {
+      investments,
+      withdrawDeposit,
+      isDeposit,
+      hasInvalidTargetAllocation,
+      hasInsufficientFunds
+    } = this.state
 
     const addInvestment = this.addInvestment.bind(this),
       cancelSubmit = this.cancelSubmit.bind(this)
-
-    const hasInvalidTargetAllocation =
-      investments.reduce((sum, investment) => sum + investment.target, 0) !== 1
-
-    const existingBalance = investments.reduce(
-      (sum, investment) =>
-        sum.add(Dinero({ amount: investment.balance * 100 })),
-      Dinero()
-    )
-
-    const targetBalance = isDeposit
-      ? existingBalance.add(Dinero({ amount: withdrawDeposit * 100 }))
-      : existingBalance.subtract(Dinero({ amount: withdrawDeposit * 100 }))
-
-    const hasInsufficientFunds = targetBalance.isNegative()
 
     return (
       <div>
@@ -151,8 +145,7 @@ class App extends Component {
                   Insufficient Funds
                 </CardTitle>
                 <CardText className='text-muted'>
-                  Your {existingBalance.toFormat()} portfolio balance is less
-                  than the withdraw amount.
+                  Your portfolio balance is less than the withdraw amount.
                 </CardText>
               </CardBody>
             </Card>
@@ -160,6 +153,12 @@ class App extends Component {
           <Button onClick={addInvestment} color='dark' block>
             <i className='fas fa-plus'></i> Add Investment
           </Button>
+          <hr />
+          <Summary
+            investments={investments}
+            withdrawDeposit={withdrawDeposit}
+            isDeposit={isDeposit}
+          />
           <hr />
           <Content />
           <hr />
@@ -181,30 +180,56 @@ class App extends Component {
       </div>
     )
   }
+  validate () {
+    const { investments, withdrawDeposit, isDeposit } = this.state
 
-  addInvestment () {
-    this.setState({
-      investments: [
-        ...this.state.investments,
-        { symbol: '', balance: 0, target: 0, rebalance: 0 }
-      ]
-    })
-  }
-  removeInvestment (index) {
-    this.setState({
-      investments: this.state.investments.filter((investment, i) => i !== index)
-    })
-  }
-  calculateRebalances (investments, withdrawDeposit, isDeposit) {
-    const existingBalance = investments.reduce(
+    const hasInvalidTargetAllocation =
+      investments.reduce((sum, investment) => sum + investment.target, 0) !== 1
+
+    const currentBalance = investments.reduce(
       (sum, investment) =>
         sum.add(Dinero({ amount: investment.balance * 100 })),
       Dinero()
     )
 
     const targetBalance = isDeposit
-      ? existingBalance.add(Dinero({ amount: withdrawDeposit * 100 }))
-      : existingBalance.subtract(Dinero({ amount: withdrawDeposit * 100 }))
+      ? currentBalance.add(Dinero({ amount: withdrawDeposit * 100 }))
+      : currentBalance.subtract(Dinero({ amount: withdrawDeposit * 100 }))
+
+    const hasInsufficientFunds = targetBalance.isNegative()
+
+    this.setState({ hasInvalidTargetAllocation, hasInsufficientFunds })
+  }
+  addInvestment () {
+    const { investments } = this.state
+
+    this.setState({
+      investments: [
+        ...investments,
+        { symbol: '', balance: 0, target: 0, rebalance: 0 }
+      ]
+    })
+  }
+  removeInvestment (index) {
+    this.setState(
+      {
+        investments: this.state.investments.filter(
+          (investment, i) => i !== index
+        )
+      },
+      this.validate
+    )
+  }
+  calculateRebalances (investments, withdrawDeposit, isDeposit) {
+    const currentBalance = investments.reduce(
+      (sum, investment) =>
+        sum.add(Dinero({ amount: investment.balance * 100 })),
+      Dinero()
+    )
+
+    const targetBalance = isDeposit
+      ? currentBalance.add(Dinero({ amount: withdrawDeposit * 100 }))
+      : currentBalance.subtract(Dinero({ amount: withdrawDeposit * 100 }))
 
     const hasInvalidTargetAllocation =
       investments.reduce((sum, investment) => sum + investment.target, 0) !== 1
@@ -224,6 +249,8 @@ class App extends Component {
       })
   }
   updateWithdrawDeposit (value, isDeposit) {
+    const { investments } = this.state
+
     const rebalances = this.calculateRebalances(
       this.state.investments,
       value,
@@ -231,29 +258,34 @@ class App extends Component {
     )
 
     Object.entries(rebalances).forEach(([index, rebalance]) => {
-      this.state.investments[index].rebalance = rebalance
+      investments[index].rebalance = rebalance
     })
 
-    this.setState({
-      investments: this.state.investments,
-      withdrawDeposit: value,
-      isDeposit
-    })
+    this.setState(
+      {
+        investments: investments,
+        withdrawDeposit: value,
+        isDeposit
+      },
+      this.validate
+    )
   }
   updateInvestment (index, field, value) {
-    this.state.investments[index][field] = value
+    const { investments, withdrawDeposit, isDeposit } = this.state
+
+    investments[index][field] = value
 
     const rebalances = this.calculateRebalances(
-      this.state.investments,
-      this.state.withdrawDeposit,
-      this.state.isDeposit
+      investments,
+      withdrawDeposit,
+      isDeposit
     )
 
     Object.entries(rebalances).forEach(([index, rebalance]) => {
-      this.state.investments[index].rebalance = rebalance
+      investments[index].rebalance = rebalance
     })
 
-    this.setState({ investments: this.state.investments })
+    this.setState({ investments: investments }, this.validate)
   }
   cancelSubmit (event) {
     event.preventDefault()
