@@ -34,9 +34,9 @@ function About () {
         <strong>When</strong>
       </p>
       <p>
-        If you find yourself needing to add funds to your portfolio or perform a
-        regular rebalancing operation, then this tool will save you time while
-        offering accurate results.
+        If you find yourself needing to add funds to your portfolio, withdraw
+        funds from your portfolio, or perform a regular rebalancing operation,
+        then this tool will save you time while offering accurate results.
       </p>
 
       <p>
@@ -73,7 +73,39 @@ function About () {
 function Guides () {
   return (
     <div className='row'>
-      <div className='col-lg'>
+      <div className='col-lg-6'>
+        <div className='card mb-3'>
+          <div className='card-body'>
+            <h5 className='card-title'>Rebalance Portfolio</h5>
+            <p className='card-text'>
+              I want to rebalance my portfolio without making a deposit or
+              withdrawal.
+            </p>
+          </div>
+          <ul className='list-group list-group-flush'>
+            <li className='list-group-item d-flex justify-content-between align-items-center'>
+              <span className='badge badge-primary badge-pill'>Step One</span>
+              Add Current Investments
+            </li>
+            <li className='list-group-item d-flex justify-content-between align-items-center'>
+              <span className='badge badge-primary badge-pill'>Step Two</span>
+              Update Portfolio
+            </li>
+          </ul>
+          <div className='card-body'>
+            <p>
+              Each investment's rebalance cell will represent the change in
+              balance required to bring it back to the proper allocation. We
+              have left the <i>Deposit</i> field empty to indiciate that we will
+              only be using existing money to bring the portfolio back to an
+              appropriate asset allocation. This will result in some
+              investment's having a negative <i>Rebalance</i> value.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className='col-lg-6'>
         <div className='card mb-3'>
           <div className='card-body'>
             <h5 className='card-title'>Add New Money</h5>
@@ -84,62 +116,62 @@ function Guides () {
             </p>
           </div>
           <ul className='list-group list-group-flush'>
-            <li class='list-group-item d-flex justify-content-between align-items-center'>
-              <span class='badge badge-primary badge-pill'>Step One</span>
-              Set Deposit Field
+            <li className='list-group-item d-flex justify-content-between align-items-center'>
+              <span className='badge badge-primary badge-pill'>Step One</span>
+              Set Deposit Amount
             </li>
-            <li class='list-group-item d-flex justify-content-between align-items-center'>
-              <span class='badge badge-primary badge-pill'>Step Two</span>
+            <li className='list-group-item d-flex justify-content-between align-items-center'>
+              <span className='badge badge-primary badge-pill'>Step Two</span>
               Add Current Investments
             </li>
-            <li class='list-group-item d-flex justify-content-between align-items-center'>
-              <span class='badge badge-primary badge-pill'>Step Three</span>
+            <li className='list-group-item d-flex justify-content-between align-items-center'>
+              <span className='badge badge-primary badge-pill'>Step Three</span>
               Update Portfolio
             </li>
           </ul>
           <div className='card-body'>
             <p>
-              Each investment's rebalance cell will represent the change
-              required to that investment to bring it back to the proper
-              allocation. This will include a proper distribution of the new
-              money indicated using the <i>Deposit</i> field.
+              Each investment's rebalance cell will represent the change in
+              balance required to bring it back to the proper allocation. This
+              will include a proper distribution of the newly deposited money.
             </p>
           </div>
         </div>
       </div>
 
-      <div className='col-lg'>
+      <div className='col-lg-6'>
         <div className='card mb-3'>
           <div className='card-body'>
-            <h5 className='card-title'>Rebalance Portfolio</h5>
+            <h5 className='card-title'>Pull Out Money</h5>
             <p className='card-text'>
-              I want to rebalance my portfolio without making a deposit or
-              withdrawal.
+              I want to pull out money from my portfolio. The money should be
+              appropriately withdrawn from each investment as to bring my
+              portfolio back to the desired asset allocation.
             </p>
           </div>
           <ul className='list-group list-group-flush'>
-            <li class='list-group-item d-flex justify-content-between align-items-center'>
-              <span class='badge badge-primary badge-pill'>Step One</span>
-              Skip Deposit Field
+            <li className='list-group-item d-flex justify-content-between align-items-center'>
+              <span className='badge badge-primary badge-pill'>Step One</span>
+              Switch to Withdraw Mode
             </li>
-            <li class='list-group-item d-flex justify-content-between align-items-center'>
-              <span class='badge badge-primary badge-pill'>Step Two</span>
+            <li className='list-group-item d-flex justify-content-between align-items-center'>
+              <span className='badge badge-primary badge-pill'>Step Two</span>
+              Set Withdraw Amount
+            </li>
+            <li className='list-group-item d-flex justify-content-between align-items-center'>
+              <span className='badge badge-primary badge-pill'>Step Three</span>
               Add Current Investments
             </li>
-            <li class='list-group-item d-flex justify-content-between align-items-center'>
-              <span class='badge badge-primary badge-pill'>Step Three</span>
+            <li className='list-group-item d-flex justify-content-between align-items-center'>
+              <span className='badge badge-primary badge-pill'>Step Four</span>
               Update Portfolio
             </li>
           </ul>
           <div className='card-body'>
             <p>
-              Each investment's rebalance cell will represent the change
-              required to that investment to bring it back to the proper
-              allocation. We have left the <i>Deposit</i> field empty to
-              indiciate that we will only be using existing money to bring the
-              portfolio back to an appropriate asset allocation. This will
-              result in some investment's having a negative <i>Rebalance</i>{' '}
-              value.
+              Each investment's rebalance cell will represent the change in
+              balance required to bring it back to the proper allocation. The
+              total rebalance should equal the withdraw amount.
             </p>
           </div>
         </div>
