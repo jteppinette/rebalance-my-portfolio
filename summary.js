@@ -3,19 +3,23 @@ import Dinero from 'dinero.js'
 
 import { Row, Col } from 'reactstrap'
 
+import { dollarsToCents, centsToDollars } from './utils'
+
 export default class Summary extends Component {
   render () {
     const { investments, withdrawDeposit, isDeposit } = this.props
 
     const currentBalance = investments.reduce(
       (sum, investment) =>
-        sum.add(Dinero({ amount: investment.balance * 100 })),
+        sum.add(Dinero({ amount: dollarsToCents(investment.balance) })),
       Dinero()
     )
 
     const targetBalance = isDeposit
-      ? currentBalance.add(Dinero({ amount: withdrawDeposit * 100 }))
-      : currentBalance.subtract(Dinero({ amount: withdrawDeposit * 100 }))
+      ? currentBalance.add(Dinero({ amount: dollarsToCents(withdrawDeposit) }))
+      : currentBalance.subtract(
+          Dinero({ amount: dollarsToCents(withdrawDeposit) })
+        )
 
     return (
       <Row className='text-center'>

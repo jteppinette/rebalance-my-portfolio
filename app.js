@@ -6,6 +6,8 @@ import Investment from './investment'
 import Content from './content'
 import Summary from './summary'
 
+import { dollarsToCents, centsToDollars } from './utils'
+
 import {
   Col,
   Container,
@@ -188,13 +190,15 @@ class App extends Component {
 
     const currentBalance = investments.reduce(
       (sum, investment) =>
-        sum.add(Dinero({ amount: investment.balance * 100 })),
+        sum.add(Dinero({ amount: dollarsToCents(investment.balance) })),
       Dinero()
     )
 
     const targetBalance = isDeposit
-      ? currentBalance.add(Dinero({ amount: withdrawDeposit * 100 }))
-      : currentBalance.subtract(Dinero({ amount: withdrawDeposit * 100 }))
+      ? currentBalance.add(Dinero({ amount: dollarsToCents(withdrawDeposit) }))
+      : currentBalance.subtract(
+          Dinero({ amount: dollarsToCents(withdrawDeposit) })
+        )
 
     const hasInsufficientFunds = targetBalance.isNegative()
 
@@ -223,13 +227,15 @@ class App extends Component {
   calculateRebalances (investments, withdrawDeposit, isDeposit) {
     const currentBalance = investments.reduce(
       (sum, investment) =>
-        sum.add(Dinero({ amount: investment.balance * 100 })),
+        sum.add(Dinero({ amount: dollarsToCents(investment.balance) })),
       Dinero()
     )
 
     const targetBalance = isDeposit
-      ? currentBalance.add(Dinero({ amount: withdrawDeposit * 100 }))
-      : currentBalance.subtract(Dinero({ amount: withdrawDeposit * 100 }))
+      ? currentBalance.add(Dinero({ amount: dollarsToCents(withdrawDeposit) }))
+      : currentBalance.subtract(
+          Dinero({ amount: dollarsToCents(withdrawDeposit) })
+        )
 
     const hasInvalidTargetAllocation =
       investments.reduce((sum, investment) => sum + investment.target, 0) !== 1
@@ -241,10 +247,12 @@ class App extends Component {
     return targetBalance
       .allocate(investments.map(investment => investment.target))
       .map((allocation, index) => {
-        return (
+        return centsToDollars(
           allocation
-            .subtract(Dinero({ amount: investments[index].balance * 100 }))
-            .getAmount() / 100
+            .subtract(
+              Dinero({ amount: dollarsToCents(investments[index].balance) })
+            )
+            .getAmount()
         )
       })
   }
