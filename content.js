@@ -1,7 +1,6 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import {
   Button,
-  Container,
   Row,
   Col,
   Card,
@@ -207,46 +206,39 @@ function Guides () {
   )
 }
 
-export default class Content extends Component {
-  state = {
-    sections: [
-      { display: 'About', component: About, isOpen: false },
-      { display: 'Guides', component: Guides, isOpen: false }
-    ]
+function Content () {
+  const [sections, setSections] = useState([
+    { display: 'About', component: About, isOpen: false },
+    { display: 'Guides', component: Guides, isOpen: false }
+  ])
+
+  function toggleSection (index) {
+    const tmp = [...sections]
+    tmp[index].isOpen = !tmp[index].isOpen
+    setSections(tmp)
   }
 
-  render () {
-    const { sections } = this.state
+  return (
+    <div className='accordion mb-3'>
+      {sections.map((section, index) => {
+        return (
+          <Card color='light' key={index}>
+            <CardHeader tag='h2' className='mb-0'>
+              <Button color='link' block onClick={() => toggleSection(index)}>
+                {section.display}
+              </Button>
+            </CardHeader>
 
-    return (
-      <div className='accordion mb-3'>
-        {sections.map((section, index) => {
-          return (
-            <Card color='light' key={index}>
-              <CardHeader tag='h2' className='mb-0'>
-                <Button
-                  color='link'
-                  block
-                  onClick={() => this.toggleSection(index)}
-                >
-                  {section.display}
-                </Button>
-              </CardHeader>
-
-              <Collapse isOpen={section.isOpen}>
-                <CardBody>
-                  <section.component />
-                </CardBody>
-              </Collapse>
-            </Card>
-          )
-        })}
-      </div>
-    )
-  }
-
-  toggleSection (index) {
-    this.state.sections[index].isOpen = !this.state.sections[index].isOpen
-    this.setState({ sections: this.state.sections })
-  }
+            <Collapse isOpen={section.isOpen}>
+              <CardBody>
+                <section.component />
+              </CardBody>
+            </Collapse>
+          </Card>
+        )
+      })}
+    </div>
+  )
 }
+
+export default Content
