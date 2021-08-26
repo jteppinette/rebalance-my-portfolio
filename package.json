@@ -2,26 +2,44 @@
   "name": "rebalance-my-portfolio",
   "version": "0.0.1",
   "engines": {
-    "node": "14.x"
+    "node": "16.x"
   },
   "scripts": {
     "dev": "parcel index.html",
     "build": "parcel build index.html"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.15.1",
+    "@fortawesome/fontawesome-free": "^5.15.4",
     "autonumeric": "^4.6.0",
-    "bootstrap": "^4.5.3",
-    "dinero.js": "^1.8.1",
-    "jquery": "^3.5.1",
-    "popper.js": "^1.16.1",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "reactstrap": "^8.7.1"
+    "bootstrap": "^4.6.0",
+    "dinero.js": "^1.9.0",
+    "preact": "^10.5.14",
+    "reactstrap": "^8.9.0"
   },
   "devDependencies": {
-    "parcel-bundler": "^1.12.4",
+    "@babel/core": "^7.15.0",
+    "@babel/preset-react": "^7.14.5",
+    "parcel-bundler": "^1.12.5",
     "parcel-plugin-prerender": "^1.4.1",
-    "sass": "^1.27.0"
+    "sass": "^1.37.5"
+  },
+  "alias": {
+    "react": "preact/compat",
+    "react-dom/test-utils": "preact/test-utils",
+    "react-dom": "preact/compat",
+    "react/jsx-runtime": "preact/jsx-runtime"
+  },
+  "plugins": [
+    [
+      "transform-react-jsx",
+      {
+        "pragma": "h"
+      }
+    ]
+  ],
+  "babel": {
+    "presets": [
+      "@babel/preset-react"
+    ]
   }
 }
