@@ -6,9 +6,20 @@
 
 ## Development
 
+### Required Software
+
+- [direnv](https://direnv.net)
+- [git](https://git-scm.com/)
+- [node](https://nodejs.org/en/download/)
+- [pre-commit](https://pre-commit.com/#install)
+
+### Getting Started
+
 **Setup**
 
 ```sh
+$ direnv allow
+$ pre-commit install
 $ npm install
 ```
 
@@ -18,7 +29,7 @@ $ npm install
 $ npm run dev
 ```
 
-## Production
+### Build
 
 ```sh
 $ npm run build
