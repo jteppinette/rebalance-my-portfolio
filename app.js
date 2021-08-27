@@ -28,9 +28,10 @@ import {
 } from 'reactstrap'
 
 function App () {
-  const [investments, setInvestments] = useState([
-    { symbol: '', balance: 0, target: 1, rebalance: 0 }
-  ])
+  const initialInvestments = [
+    { symbol: 'AAPL', balance: 0, target: 1, rebalance: 0 }
+  ]
+  const [investments, setInvestments] = useState(initialInvestments)
   const [withdrawDeposit, setWithdrawDeposit] = useState(0)
   const [isDeposit, setIsDeposit] = useState(true)
 
