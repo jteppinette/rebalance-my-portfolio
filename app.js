@@ -127,18 +127,13 @@ function App () {
     setInvestments(rebalancedInvestments)
   }
 
-  function cancelSubmit (event) {
-    event.preventDefault()
-    event.stopPropagation()
-  }
-
   return (
     <div>
       <Navbar dark className='bg-dark'>
         <NavbarBrand className='mx-auto'>Rebalance My Portfolio</NavbarBrand>
       </Navbar>
       <Container>
-        <Form onSubmit={cancelSubmit}>
+        <Form>
           <FormGroup row className='justify-content-between'>
             <Col sm='12' md='auto'>
               <Label className='sr-only' htmlFor='deposit'>
@@ -180,7 +175,7 @@ function App () {
             </Col>
           </FormGroup>
         </Form>
-        <Form onSubmit={cancelSubmit}>
+        <Form>
           <Table responsive striped bordered className='table-sm-sm'>
             <thead className='thead-dark'>
               <tr>
