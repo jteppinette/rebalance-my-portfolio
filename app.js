@@ -33,29 +33,20 @@ function App () {
   ])
   const [withdrawDeposit, setWithdrawDeposit] = useState(0)
   const [isDeposit, setIsDeposit] = useState(true)
-  const [hasInvalidTargetAllocation, setHasInvalidTargetAllocation] = useState(
-    false
+
+  const currentBalance = investments.reduce(
+    (sum, investment) =>
+      sum.add(Dinero({ amount: dollarsToCents(investment.balance) })),
+    Dinero()
   )
-  const [hasInsufficientFunds, setHasInsufficientFunds] = useState(false)
-
-  useEffect(() => {
-    const currentBalance = investments.reduce(
-      (sum, investment) =>
-        sum.add(Dinero({ amount: dollarsToCents(investment.balance) })),
-      Dinero()
-    )
-
-    const targetBalance = isDeposit
-      ? currentBalance.add(Dinero({ amount: dollarsToCents(withdrawDeposit) }))
-      : currentBalance.subtract(
-          Dinero({ amount: dollarsToCents(withdrawDeposit) })
-        )
-
-    setHasInsufficientFunds(targetBalance.isNegative())
-    setHasInvalidTargetAllocation(
-      investments.reduce((sum, investment) => sum + investment.target, 0) !== 1
-    )
-  }, [investments, withdrawDeposit, isDeposit])
+  const targetBalance = isDeposit
+    ? currentBalance.add(Dinero({ amount: dollarsToCents(withdrawDeposit) }))
+    : currentBalance.subtract(
+        Dinero({ amount: dollarsToCents(withdrawDeposit) })
+      )
+  const hasInsufficientFunds = targetBalance.isNegative()
+  const hasInvalidTargetAllocation =
+    investments.reduce((sum, investment) => sum + investment.target, 0) !== 1
 
   function addInvestment () {
     setInvestments([
