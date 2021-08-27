@@ -29,9 +29,14 @@ import {
 
 function App () {
   const initialInvestments = [{ symbol: 'AAPL', balance: 0, target: 1 }]
+
   const [investments, setInvestments] = useState(initialInvestments)
   const [withdrawDeposit, setWithdrawDeposit] = useState(0)
   const [isDeposit, setIsDeposit] = useState(true)
+
+  useEffect(() => {
+    setWithdrawDeposit(0)
+  }, [isDeposit])
 
   const currentBalance = investments.reduce(
     (sum, investment) =>
@@ -69,10 +74,6 @@ function App () {
   function removeInvestment (index) {
     setInvestments(investments.filter((investment, i) => i !== index))
   }
-  function updateWithdrawDeposit (value, isDeposit) {
-    setIsDeposit(isDeposit)
-    setWithdrawDeposit(value)
-  }
   function updateInvestment (index, field, value) {
     const tmp = [...investments]
     tmp[index][field] = value
@@ -96,7 +97,7 @@ function App () {
                   <Button
                     color='secondary'
                     type='button'
-                    onClick={() => updateWithdrawDeposit(0, !isDeposit)}
+                    onClick={() => setIsDeposit(!isDeposit)}
                   >
                     <i className='fas fa-exchange-alt'></i>
                   </Button>
@@ -108,7 +109,7 @@ function App () {
                   name='withdrawDeposit'
                   value={withdrawDeposit}
                   onValueChange={({ floatValue }) =>
-                    updateWithdrawDeposit(floatValue, isDeposit)
+                    setWithdrawDeposit(floatValue)
                   }
                   decimalScale={2}
                   thousandSeparator={true}
