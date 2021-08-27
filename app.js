@@ -144,9 +144,7 @@ function App () {
                 <Investment
                   key={index}
                   index={index}
-                  symbol={investment.symbol}
-                  balance={investment.balance}
-                  target={investment.target}
+                  {...investment}
                   rebalance={rebalances[index]}
                   update={updateInvestment.bind(this, index)}
                   remove={removeInvestment.bind(this, index)}
