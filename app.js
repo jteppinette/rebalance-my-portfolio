@@ -166,36 +166,34 @@ function App () {
             </Col>
           </FormGroup>
         </Form>
-        <Form>
-          <Table responsive striped bordered className='table-sm-sm'>
-            <thead className='thead-dark'>
-              <tr>
-                <th>Symbol</th>
-                <th>Current Balance</th>
-                <th>Target Allocation</th>
-                <th>Rebalance</th>
-                <th className='text-center'>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {investments.map((investment, index) => {
-                return (
-                  <Investment
-                    key={index}
-                    index={index}
-                    symbol={investment.symbol}
-                    balance={investment.balance}
-                    target={investment.target}
-                    rebalance={investment.rebalance}
-                    update={updateInvestment.bind(this, index)}
-                    remove={removeInvestment.bind(this, index)}
-                    isRemoveDisabled={investments.length <= 1}
-                  />
-                )
-              })}
-            </tbody>
-          </Table>
-        </Form>
+        <Table responsive striped bordered className='table-sm-sm'>
+          <thead className='thead-dark'>
+            <tr>
+              <th>Symbol</th>
+              <th>Current Balance</th>
+              <th>Target Allocation</th>
+              <th>Rebalance</th>
+              <th className='text-center'>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {investments.map((investment, index) => {
+              return (
+                <Investment
+                  key={index}
+                  index={index}
+                  symbol={investment.symbol}
+                  balance={investment.balance}
+                  target={investment.target}
+                  rebalance={investment.rebalance}
+                  update={updateInvestment.bind(this, index)}
+                  remove={removeInvestment.bind(this, index)}
+                  isRemoveDisabled={investments.length <= 1}
+                />
+              )
+            })}
+          </tbody>
+        </Table>
         {hasInvalidTargetAllocation && (
           <Card className='text-center mb-3'>
             <CardBody>
