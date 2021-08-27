@@ -28,9 +28,7 @@ import {
 } from 'reactstrap'
 
 function App () {
-  const initialInvestments = [
-    { symbol: 'AAPL', balance: 0, target: 1, rebalance: 0 }
-  ]
+  const initialInvestments = [{ symbol: 'AAPL', balance: 0, target: 1 }]
   const [investments, setInvestments] = useState(initialInvestments)
   const [withdrawDeposit, setWithdrawDeposit] = useState(0)
   const [isDeposit, setIsDeposit] = useState(true)
@@ -48,75 +46,35 @@ function App () {
   const hasInsufficientFunds = targetBalance.isNegative()
   const hasInvalidTargetAllocation =
     investments.reduce((sum, investment) => sum + investment.target, 0) !== 1
+  const rebalances =
+    hasInvalidTargetAllocation || targetBalance.isNegative()
+      ? investments.map(() => 0)
+      : targetBalance
+          .allocate(investments.map(investment => investment.target))
+          .map((allocation, index) => {
+            return centsToDollars(
+              allocation
+                .subtract(
+                  Dinero({ amount: dollarsToCents(investments[index].balance) })
+                )
+                .getAmount()
+            )
+          })
 
   function addInvestment () {
-    setInvestments([
-      ...investments,
-      { symbol: '', balance: 0, target: 0, rebalance: 0 }
-    ])
+    setInvestments([...investments, { symbol: '', balance: 0, target: 0 }])
   }
-
   function removeInvestment (index) {
     setInvestments(investments.filter((investment, i) => i !== index))
   }
-
-  function calculateRebalances (investments, withdrawDeposit, isDeposit) {
-    const currentBalance = investments.reduce(
-      (sum, investment) =>
-        sum.add(Dinero({ amount: dollarsToCents(investment.balance) })),
-      Dinero()
-    )
-
-    const targetBalance = isDeposit
-      ? currentBalance.add(Dinero({ amount: dollarsToCents(withdrawDeposit) }))
-      : currentBalance.subtract(
-          Dinero({ amount: dollarsToCents(withdrawDeposit) })
-        )
-
-    const hasInvalidTargetAllocation =
-      investments.reduce((sum, investment) => sum + investment.target, 0) !== 1
-
-    if (hasInvalidTargetAllocation || targetBalance.isNegative()) {
-      return investments.map(() => 0)
-    }
-
-    return targetBalance
-      .allocate(investments.map(investment => investment.target))
-      .map((allocation, index) => {
-        return centsToDollars(
-          allocation
-            .subtract(
-              Dinero({ amount: dollarsToCents(investments[index].balance) })
-            )
-            .getAmount()
-        )
-      })
-  }
-
   function updateWithdrawDeposit (value, isDeposit) {
-    const rebalances = calculateRebalances(investments, value, isDeposit)
-
-    const rebalancedInvestments = rebalances.map((rebalance, index) => {
-      return { ...investments[index], rebalance }
-    })
-
-    setInvestments(rebalancedInvestments)
     setIsDeposit(isDeposit)
     setWithdrawDeposit(value)
   }
-
   function updateInvestment (index, field, value) {
     const tmp = [...investments]
-
     tmp[index][field] = value
-
-    const rebalances = calculateRebalances(tmp, withdrawDeposit, isDeposit)
-
-    const rebalancedInvestments = rebalances.map((rebalance, index) => {
-      return { ...tmp[index], rebalance }
-    })
-
-    setInvestments(rebalancedInvestments)
+    setInvestments(tmp)
   }
 
   return (
@@ -186,7 +144,7 @@ function App () {
                   symbol={investment.symbol}
                   balance={investment.balance}
                   target={investment.target}
-                  rebalance={investment.rebalance}
+                  rebalance={rebalances[index]}
                   update={updateInvestment.bind(this, index)}
                   remove={removeInvestment.bind(this, index)}
                   isRemoveDisabled={investments.length <= 1}
