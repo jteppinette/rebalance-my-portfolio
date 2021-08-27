@@ -188,6 +188,8 @@ function App () {
           investments={investments}
           withdrawDeposit={withdrawDeposit}
           isDeposit={isDeposit}
+          currentBalance={currentBalance}
+          targetBalance={targetBalance}
         />
         <hr />
         <Content />
