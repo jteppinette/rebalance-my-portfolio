@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Dinero from 'dinero.js'
 import NumberFormat from 'react-number-format'
 
@@ -28,14 +28,23 @@ import {
 } from 'reactstrap'
 
 function App () {
-  const initialInvestments = [{ symbol: 'AAPL', balance: 0, target: 1 }]
+  const initialInvestments = [
+    { symbol: 'VBTLX', balance: 1603, target: 0.2 },
+    { symbol: 'VTSAX', balance: 8320, target: 0.8 }
+  ]
 
   const [investments, setInvestments] = useState(initialInvestments)
-  const [withdrawDeposit, setWithdrawDeposit] = useState(0)
+  const [withdrawDeposit, setWithdrawDeposit] = useState(500)
   const [isDeposit, setIsDeposit] = useState(true)
 
+  const isInitialMount = useRef(true)
+
   useEffect(() => {
-    setWithdrawDeposit(0)
+    if (isInitialMount.current) {
+      isInitialMount.current = false
+    } else {
+      setWithdrawDeposit(0)
+    }
   }, [isDeposit])
 
   const currentBalance = investments.reduce(
