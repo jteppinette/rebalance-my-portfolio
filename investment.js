@@ -1,7 +1,8 @@
 import React from 'react'
-
-import Numeric from './numeric'
+import NumberFormat from 'react-number-format'
 import { Input, Button } from 'reactstrap'
+
+import { decimalToPercent, percentToDecimal } from './utils.js'
 
 function Investment (props) {
   return (
@@ -14,33 +15,47 @@ function Investment (props) {
         />
       </td>
       <td>
-        <Numeric
-          type='text'
+        <NumberFormat
           name={`balance-${props.index}`}
           value={props.balance}
-          onChange={(event, value) => props.update('balance', value)}
-          predefined='dollar'
+          onValueChange={({ floatValue }) =>
+            props.update('balance', floatValue)
+          }
+          decimalScale={2}
+          thousandSeparator={true}
+          prefix='$'
+          allowNegative={false}
           className='form-control'
         />
       </td>
       <td>
-        <Numeric
-          type='text'
+        <NumberFormat
           name={`target-${props.index}`}
-          value={props.target}
-          onChange={(event, value) => props.update('target', value)}
-          predefined='percentageUS2dec'
-          minimumValue={0}
-          maximumValue={100}
+          value={props.target ? decimalToPercent(props.target) : props.target}
+          onValueChange={({ floatValue }) =>
+            props.update(
+              'target',
+              floatValue ? percentToDecimal(floatValue) : floatValue
+            )
+          }
+          decimalScale={0}
+          suffix='%'
+          allowNegative={false}
+          isAllowed={({ floatValue }) =>
+            floatValue ? floatValue <= 100 : true
+          }
           className='form-control'
         />
       </td>
       <td>
-        <Numeric
-          type='text'
+        <NumberFormat
           name={`rebalance-${props.index}`}
           value={props.rebalance}
-          predefined='dollar'
+          decimalScale={2}
+          fixedDecimalScale={true}
+          thousandSeparator={true}
+          prefix={'$'}
+          displayType={'text'}
           readOnly={true}
           className='form-control'
         />

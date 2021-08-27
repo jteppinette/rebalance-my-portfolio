@@ -16,6 +16,10 @@ form .table {
   margin-bottom: 0px;
 }
 
+.form-control {
+  white-space: nowrap;
+}
+
 @include media-breakpoint-down(sm) {
   .table-sm-sm {
     th,

@@ -40,7 +40,7 @@ function App () {
 
   const currentBalance = investments.reduce(
     (sum, investment) =>
-      sum.add(Dinero({ amount: dollarsToCents(investment.balance) })),
+      sum.add(Dinero({ amount: dollarsToCents(investment.balance || 0) })),
     Dinero()
   )
   const targetBalance = isDeposit
@@ -52,17 +52,20 @@ function App () {
       )
   const hasInsufficientFunds = targetBalance.isNegative()
   const hasInvalidTargetAllocation =
-    investments.reduce((sum, investment) => sum + investment.target, 0) !== 1
+    investments.reduce((sum, investment) => sum + investment.target || 0, 0) !==
+    1
   const rebalances =
     hasInvalidTargetAllocation || targetBalance.isNegative()
       ? investments.map(() => 0)
       : targetBalance
-          .allocate(investments.map(investment => investment.target))
+          .allocate(investments.map(investment => investment.target || 0))
           .map((allocation, index) => {
             return centsToDollars(
               allocation
                 .subtract(
-                  Dinero({ amount: dollarsToCents(investments[index].balance) })
+                  Dinero({
+                    amount: dollarsToCents(investments[index].balance || 0)
+                  })
                 )
                 .getAmount()
             )
