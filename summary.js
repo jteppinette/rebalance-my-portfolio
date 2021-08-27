@@ -14,10 +14,10 @@ function Summary (props) {
 
   const targetBalance = props.isDeposit
     ? currentBalance.add(
-        Dinero({ amount: dollarsToCents(props.withdrawDeposit) })
+        Dinero({ amount: dollarsToCents(props.withdrawDeposit || 0) })
       )
     : currentBalance.subtract(
-        Dinero({ amount: dollarsToCents(props.withdrawDeposit) })
+        Dinero({ amount: dollarsToCents(props.withdrawDeposit || 0) })
       )
 
   return (

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Dinero from 'dinero.js'
+import NumberFormat from 'react-number-format'
 
-import Numeric from './numeric'
 import Investment from './investment'
 import Content from './content'
 import Summary from './summary'
@@ -39,9 +39,11 @@ function App () {
     Dinero()
   )
   const targetBalance = isDeposit
-    ? currentBalance.add(Dinero({ amount: dollarsToCents(withdrawDeposit) }))
+    ? currentBalance.add(
+        Dinero({ amount: dollarsToCents(withdrawDeposit || 0) })
+      )
     : currentBalance.subtract(
-        Dinero({ amount: dollarsToCents(withdrawDeposit) })
+        Dinero({ amount: dollarsToCents(withdrawDeposit || 0) })
       )
   const hasInsufficientFunds = targetBalance.isNegative()
   const hasInvalidTargetAllocation =
@@ -102,16 +104,16 @@ function App () {
                     {isDeposit ? 'Deposit' : 'Withdraw'}
                   </InputGroupText>
                 </InputGroupAddon>
-                <Numeric
-                  key={isDeposit}
-                  type='text'
-                  name='deposit'
+                <NumberFormat
+                  name='withdrawDeposit'
                   value={withdrawDeposit}
-                  onChange={(event, value) =>
-                    updateWithdrawDeposit(value, isDeposit)
+                  onValueChange={({ floatValue }) =>
+                    updateWithdrawDeposit(floatValue, isDeposit)
                   }
-                  predefined='dollar'
-                  minimumValue={0}
+                  decimalScale={2}
+                  thousandSeparator={true}
+                  prefix={'$'}
+                  allowNegative={false}
                   className='form-control'
                 />
               </InputGroup>
