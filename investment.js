@@ -31,6 +31,7 @@ function Investment (props) {
       <td>
         <NumberFormat
           name={`target-${props.index}`}
+          type='tel'
           value={props.target ? decimalToPercent(props.target) : props.target}
           onValueChange={({ floatValue }) =>
             props.update(
