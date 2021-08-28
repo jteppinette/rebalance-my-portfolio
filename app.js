@@ -6,7 +6,7 @@ import Investment from './investment'
 import Content from './content'
 import Summary from './summary'
 
-import { dollarsToCents, centsToDollars } from './utils'
+import { dollarsToCents, centsToDollars, decimalToPercent } from './utils'
 
 import {
   Col,
@@ -61,8 +61,10 @@ function App () {
       )
   const hasInsufficientFunds = targetBalance.isNegative()
   const hasInvalidTargetAllocation =
-    investments.reduce((sum, investment) => sum + investment.target || 0, 0) !==
-    1
+    investments.reduce(
+      (sum, investment) => sum + decimalToPercent(investment.target || 0),
+      0
+    ) !== 100
   const rebalances =
     hasInvalidTargetAllocation || targetBalance.isNegative()
       ? investments.map(() => 0)
