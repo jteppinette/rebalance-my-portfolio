@@ -164,9 +164,6 @@ function App () {
         </Button>
         <hr />
         <Summary
-          investments={investments}
-          withdrawDeposit={withdrawDeposit}
-          isDeposit={isDeposit}
           currentBalance={currentBalance}
           targetBalance={targetBalance}
         />
