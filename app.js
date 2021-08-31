@@ -9,8 +9,9 @@ import {
   InvalidTargetAllocationAlert,
   InsufficientFundsAlert
 } from './alerts.js'
+import { getPerfectRebalances } from './algorithms.js'
 
-import { dollarsToCents, centsToDollars, decimalToPercent } from './utils'
+import { dollarsToCents, decimalToPercent } from './utils'
 
 import {
   Col,
@@ -68,19 +69,7 @@ function App () {
   const rebalances =
     hasInvalidTargetAllocation || hasInsufficientFunds
       ? investments.map(() => 0)
-      : targetBalance
-          .allocate(investments.map(investment => investment.target || 0))
-          .map((allocation, index) => {
-            return centsToDollars(
-              allocation
-                .subtract(
-                  Dinero({
-                    amount: dollarsToCents(investments[index].balance || 0)
-                  })
-                )
-                .getAmount()
-            )
-          })
+      : getPerfectRebalances(targetBalance, investments)
 
   function addInvestment () {
     setInvestments([...investments, { symbol: '', balance: 0, target: 0 }])
