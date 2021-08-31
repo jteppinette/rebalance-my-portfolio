@@ -157,7 +157,7 @@ function App () {
             })}
           </tbody>
         </Table>
-        {hasInvalidTargetAllocation && <InvalidTargetAllocationAlrert />}
+        {hasInvalidTargetAllocation && <InvalidTargetAllocationAlert />}
         {hasInsufficientFunds && <InsufficientFundsAlert />}
         <Button onClick={addInvestment} color='dark' block>
           <i className='fas fa-plus'></i> Add Investment
