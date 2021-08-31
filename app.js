@@ -67,6 +67,19 @@ function App () {
     hasInvalidTargetAllocation || hasInsufficientFunds
       ? investments.map(() => 0)
       : getPerfectRebalances(targetBalance, investments)
+  const allocations =
+    hasInvalidTargetAllocation || hasInsufficientFunds
+      ? rebalances.map(() => 0)
+      : rebalances
+          .map(v => Dinero({ amount: dollarsToCents(v) }))
+          .map((rebalance, index) =>
+            Dinero({
+              amount: dollarsToCents(investments[index].balance || 0)
+            }).add(rebalance)
+          )
+          .map(rebalanced =>
+            decimalToPercent(rebalanced.getAmount() / targetBalance.getAmount())
+          )
 
   function addInvestment () {
     setInvestments([...investments, { symbol: '', balance: 0, target: 0 }])
@@ -132,9 +145,19 @@ function App () {
           <thead className='thead-dark'>
             <tr>
               <th>Symbol</th>
-              <th>Current Balance</th>
-              <th>Target Allocation</th>
+              <th>
+                <span className='d-md-block d-none'>Current Balance</span>
+                <span className='d-md-none d-block'>Balance</span>
+              </th>
+              <th>
+                <span className='d-md-block d-none'>Target Allocation</span>
+                <span className='d-md-none d-block'>Target</span>
+              </th>
               <th>Rebalance</th>
+              <th>
+                <span className='d-md-block d-none'>Rebalanced Allocation</span>
+                <span className='d-md-none d-block'>Allocation</span>
+              </th>
               <th className='text-center'>Actions</th>
             </tr>
           </thead>
@@ -146,6 +169,7 @@ function App () {
                   index={index}
                   {...investment}
                   rebalance={rebalances[index]}
+                  allocation={allocations[index]}
                   update={updateInvestment.bind(this, index)}
                   remove={removeInvestment.bind(this, index)}
                   isRemoveDisabled={investments.length <= 1}

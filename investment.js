@@ -61,6 +61,17 @@ function Investment (props) {
           className='form-control'
         />
       </td>
+      <td>
+        <NumberFormat
+          name={`allocation-${props.index}`}
+          value={props.allocation}
+          decimalScale={0}
+          suffix='%'
+          displayType={'text'}
+          readOnly={true}
+          className='form-control'
+        />
+      </td>
       <td className='text-center align-middle'>
         <Button
           onClick={props.remove}
