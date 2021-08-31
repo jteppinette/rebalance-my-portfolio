@@ -66,7 +66,7 @@ function App () {
       0
     ) !== 100
   const rebalances =
-    hasInvalidTargetAllocation || targetBalance.isNegative()
+    hasInvalidTargetAllocation || hasInsufficientFunds
       ? investments.map(() => 0)
       : targetBalance
           .allocate(investments.map(investment => investment.target || 0))
