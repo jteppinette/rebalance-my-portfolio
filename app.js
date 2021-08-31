@@ -9,11 +9,16 @@ import {
   InvalidTargetAllocationAlert,
   InsufficientFundsAlert
 } from './alerts.js'
-import { getPerfectRebalances } from './algorithms.js'
+import {
+  getEmptyRebalances,
+  getPerfectRebalances,
+  getLazyRebalances
+} from './algorithms.js'
 
 import { dollarsToCents, decimalToPercent } from './utils'
 
 import {
+  Button,
   Col,
   Container,
   Form,
@@ -22,10 +27,10 @@ import {
   InputGroupAddon,
   InputGroupText,
   Label,
-  Table,
-  Button,
   Navbar,
-  NavbarBrand
+  NavbarBrand,
+  Table,
+  UncontrolledTooltip
 } from 'reactstrap'
 
 function App () {
@@ -63,10 +68,20 @@ function App () {
       (sum, investment) => sum + decimalToPercent(investment.target || 0),
       0
     ) !== 100
-  const rebalances =
-    hasInvalidTargetAllocation || hasInsufficientFunds
-      ? investments.map(() => 0)
-      : getPerfectRebalances(targetBalance, investments)
+  const rebalances = (() => {
+    if (hasInvalidTargetAllocation || hasInsufficientFunds) {
+      return getEmptyRebalances(investments)
+    } else if (transfer.isZero()) {
+      return getPerfectRebalances(targetBalance, investments)
+    } else {
+      return getLazyRebalances(
+        isDeposit,
+        Dinero({ amount: dollarsToCents(withdrawDeposit || 0) }),
+        targetBalance,
+        investments
+      )
+    }
+  })()
   const allocations =
     hasInvalidTargetAllocation || hasInsufficientFunds
       ? rebalances.map(() => 0)
@@ -80,6 +95,13 @@ function App () {
           .map(rebalanced =>
             decimalToPercent(rebalanced.getAmount() / targetBalance.getAmount())
           )
+  const missesTargetAllocation =
+    hasInvalidTargetAllocation || hasInsufficientFunds
+      ? false
+      : allocations.some(
+          (allocation, index) =>
+            decimalToPercent(investments[index].target) !== allocation
+        )
 
   function addInvestment () {
     setInvestments([...investments, { symbol: '', balance: 0, target: 0 }])
@@ -120,6 +142,7 @@ function App () {
                 </InputGroupAddon>
                 <NumberFormat
                   name='withdrawDeposit'
+                  id='withdrawDeposit'
                   value={withdrawDeposit}
                   onValueChange={({ floatValue }) =>
                     setWithdrawDeposit(floatValue)
@@ -128,9 +151,16 @@ function App () {
                   thousandSeparator={true}
                   prefix={'$'}
                   allowNegative={false}
-                  className='form-control'
+                  className={`form-control ${missesTargetAllocation &&
+                    'is-invalid-warning'}`}
                 />
               </InputGroup>
+              {missesTargetAllocation && (
+                <small className='form-text text-warning'>
+                  The transfer amount is not high enough to reach the target
+                  allocation.
+                </small>
+              )}
               <small className='form-text text-muted'>
                 {isDeposit
                   ? 'Provide a deposit amount to be rebalanced into your portfolio.'

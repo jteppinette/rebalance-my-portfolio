@@ -67,6 +67,45 @@ function About () {
         that allocates funds to various investments properly without a loss in
         precision.{' '}
       </p>
+      <p>
+        <p>
+          The algorithm works in two ways based on how the calculator is being
+          used:
+        </p>
+        <ul>
+          <li>
+            <i>Deposit or Withdrawal</i>
+            <p>
+              <br />
+              The algorithm will attempt to meet the target allocation by
+              distributing the deposit or withdrawal amount across assets.
+            </p>
+            <p>
+              The algorithm will not allow any transactions of the opposite
+              type. e.g. You won't have to sell any assets if a deposit is
+              occuring and you won't have to buy any assets if a withdrawal is
+              occurring. This limits the number of transactions that need to
+              occur and prevents any unecessary taxable events.
+            </p>
+            <p>
+              However, this can prevent you from reaching a perfect target asset
+              allocation if the deposit/withdrawal amount is not high enough. If
+              this is the case, assets will be prioritized based on their order
+              in the table. i.e. Assets at the top of the table will have their
+              target asset allocation met before assets at the bottom.
+            </p>
+          </li>
+          <li>
+            <i>Exchange</i>
+            <p>
+              <br />
+              The algorithm will only use assets that exist in the portfolio to
+              reach a perfect target asset allocation. This will result in some
+              assets being sold and some being purchased.
+            </p>
+          </li>
+        </ul>
+      </p>
 
       <p>
         <strong>Privacy</strong>
@@ -127,8 +166,8 @@ function Guides () {
             <CardTitle tag='h5'>Add New Money</CardTitle>
             <CardText>
               I want to add new money into my portfolio. The new money should be
-              appropriately allocated as to bring my portfolio back to my
-              desired asset allocation.
+              appropriately allocated as to bring my portfolio as close to the
+              target allocation as possible without selling any investments.
             </CardText>
           </CardBody>
           <ListGroup flush>
@@ -152,9 +191,8 @@ function Guides () {
             </ListGroupItem>
           </ListGroup>
           <CardBody>
-            Each investment's rebalance cell will represent the change in
-            balance required to bring it back to the proper allocation. This
-            will include a proper distribution of the newly deposited money.
+            Each investment's rebalance cell will represent the amount which
+            should be purchased.
           </CardBody>
         </Card>
       </Col>
@@ -166,7 +204,8 @@ function Guides () {
             <CardText>
               I want to pull out money from my portfolio. The money should be
               appropriately withdrawn from each investment as to bring my
-              portfolio back to the desired asset allocation.
+              portfolio as close to the target allocation as possible without
+              purchasing any assets.
             </CardText>
           </CardBody>
           <ListGroup flush>
@@ -196,9 +235,8 @@ function Guides () {
             </ListGroupItem>
           </ListGroup>
           <CardBody>
-            Each investment's rebalance cell will represent the change in
-            balance required to bring it back to the proper allocation. The
-            total rebalance should equal the withdraw amount.
+            Each investment's rebalance cell will represent the amount which
+            should be sold.
           </CardBody>
         </Card>
       </Col>
