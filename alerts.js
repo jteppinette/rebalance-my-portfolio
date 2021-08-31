@@ -1,3 +1,6 @@
+import React from 'react'
+import { Card, CardBody, CardTitle, CardText } from 'reactstrap'
+
 function InvalidTargetAllocationAlert () {
   return (
     <Card className='text-center mb-3'>
