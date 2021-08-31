@@ -24,11 +24,7 @@ import {
   Table,
   Button,
   Navbar,
-  NavbarBrand,
-  Card,
-  CardBody,
-  CardTitle,
-  CardText
+  NavbarBrand
 } from 'reactstrap'
 
 function App () {
