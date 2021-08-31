@@ -244,10 +244,27 @@ function Guides () {
   )
 }
 
+function FAQ () {
+  return (
+    <div>
+      <p>
+        <strong>How do I remove an investment?</strong>
+      </p>
+      <p>
+        The investments table has an <i>Actions</i> column with a remove button.
+        When using mobile devices with small screens, this table column can
+        sometimes become "cut-off". If this occurs, you can horizontally scroll
+        the table to find the column.
+      </p>
+    </div>
+  )
+}
+
 function Content () {
   const [sections, setSections] = useState([
     { display: 'About', component: About, isOpen: false },
-    { display: 'Guides', component: Guides, isOpen: false }
+    { display: 'Guides', component: Guides, isOpen: false },
+    { display: 'FAQ', component: FAQ, isOpen: false }
   ])
 
   function toggleSection (index) {
