@@ -53,13 +53,10 @@ function App () {
       sum.add(Dinero({ amount: dollarsToCents(investment.balance || 0) })),
     Dinero()
   )
-  const targetBalance = isDeposit
-    ? currentBalance.add(
-        Dinero({ amount: dollarsToCents(withdrawDeposit || 0) })
-      )
-    : currentBalance.subtract(
-        Dinero({ amount: dollarsToCents(withdrawDeposit || 0) })
-      )
+  const transfer = Dinero({
+    amount: dollarsToCents(withdrawDeposit || 0) * (isDeposit ? 1 : -1)
+  })
+  const targetBalance = currentBalance.add(transfer)
   const hasInsufficientFunds = targetBalance.isNegative()
   const hasInvalidTargetAllocation =
     investments.reduce(
