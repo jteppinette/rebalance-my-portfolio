@@ -2,9 +2,13 @@ import React, { useState, useEffect, useRef } from 'react'
 import Dinero from 'dinero.js'
 import NumberFormat from 'react-number-format'
 
-import Investment from './investment'
 import Content from './content'
+import Investment from './investment'
 import Summary from './summary'
+import {
+  InvalidTargetAllocationAlert,
+  InsufficientFundsAlert
+} from './alerts.js'
 
 import { dollarsToCents, centsToDollars, decimalToPercent } from './utils'
 
@@ -168,31 +172,8 @@ function App () {
             })}
           </tbody>
         </Table>
-        {hasInvalidTargetAllocation && (
-          <Card className='text-center mb-3'>
-            <CardBody>
-              <CardTitle tag='h5' className='text-warning'>
-                Fully Allocate Portfolio
-              </CardTitle>
-              <CardText className='text-muted'>
-                The sum of each investment's target allocation must equal 100%
-                before the portfolio can be properly rebalanced.
-              </CardText>
-            </CardBody>
-          </Card>
-        )}
-        {hasInsufficientFunds && (
-          <Card className='text-center mb-3'>
-            <CardBody className='card-body'>
-              <CardTitle tag='h5' className='text-warning'>
-                Insufficient Funds
-              </CardTitle>
-              <CardText className='text-muted'>
-                Your portfolio balance is less than the withdraw amount.
-              </CardText>
-            </CardBody>
-          </Card>
-        )}
+        {hasInvalidTargetAllocation && <InvalidTargetAllocationAlrert />}
+        {hasInsufficientFunds && <InsufficientFundsAlert />}
         <Button onClick={addInvestment} color='dark' block>
           <i className='fas fa-plus'></i> Add Investment
         </Button>
