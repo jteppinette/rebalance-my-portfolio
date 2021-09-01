@@ -151,7 +151,6 @@ function App () {
                 </InputGroupAddon>
                 <NumberFormat
                   name='withdrawDeposit'
-                  id='withdrawDeposit'
                   value={withdrawDeposit}
                   onValueChange={({ floatValue }) =>
                     setWithdrawDeposit(floatValue)
