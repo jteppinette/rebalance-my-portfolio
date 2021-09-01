@@ -82,17 +82,20 @@ function App () {
       )
     }
   })()
-  const allocations =
-    hasInvalidTargetAllocation || hasInsufficientFunds
-      ? rebalances.map(() => 0)
-      : rebalances
-          .map(v => Dinero({ amount: dollarsToCents(v) }))
-          .map((rebalance, index) =>
-            Dinero({
-              amount: dollarsToCents(investments[index].balance || 0)
-            }).add(rebalance)
-          )
-          .map(rebalanced => rebalanced.getAmount() / targetBalance.getAmount())
+  const allocations = (() => {
+    if (hasInvalidTargetAllocation || hasInsufficientFunds) {
+      return rebalancesmap(() => 0)
+    }
+    return rebalances
+      .map(v => Dinero({ amount: dollarsToCents(v) }))
+      .map((rebalance, index) => {
+        const balance = Dinero({
+          amount: dollarsToCents(investments[index].balance || 0)
+        })
+        return balance.add(rebalance)
+      })
+      .map(rebalanced => rebalanced.getAmount() / targetBalance.getAmount())
+  })()
   const missesTargetAllocation = (() => {
     if (hasInvalidTargetAllocation || hasInsufficientFunds) {
       return false
