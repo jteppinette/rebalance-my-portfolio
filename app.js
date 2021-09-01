@@ -92,16 +92,20 @@ function App () {
               amount: dollarsToCents(investments[index].balance || 0)
             }).add(rebalance)
           )
-          .map(rebalanced =>
-            decimalToPercent(rebalanced.getAmount() / targetBalance.getAmount())
-          )
+          .map(rebalanced => rebalanced.getAmount() / targetBalance.getAmount())
   const missesTargetAllocation =
     hasInvalidTargetAllocation || hasInsufficientFunds
       ? false
-      : allocations.some(
-          (allocation, index) =>
-            decimalToPercent(investments[index].target) !== allocation
-        )
+      : targetBalance
+          .allocate(investments.map(investment => investment.target || 0))
+          .map((allocation, index) =>
+            Dinero({ amount: dollarsToCents(rebalances[index]) })
+              .add(
+                Dinero({ amount: dollarsToCents(investments[index].balance) })
+              )
+              .lessThan(allocation)
+          )
+          .some(v => v)
 
   function addInvestment () {
     setInvestments([...investments, { symbol: '', balance: 0, target: 0 }])

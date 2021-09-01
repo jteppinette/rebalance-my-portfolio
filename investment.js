@@ -64,8 +64,8 @@ function Investment (props) {
       <td>
         <NumberFormat
           name={`allocation-${props.index}`}
-          value={props.allocation}
-          decimalScale={0}
+          value={props.allocation * 100}
+          decimalScale={2}
           suffix='%'
           displayType={'text'}
           readOnly={true}
