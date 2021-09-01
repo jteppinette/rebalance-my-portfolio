@@ -193,10 +193,7 @@ function App () {
                 <span className='d-md-none d-block'>Target</span>
               </th>
               <th>Rebalance</th>
-              <th>
-                <span className='d-md-block d-none'>Rebalanced Allocation</span>
-                <span className='d-md-none d-block'>Allocation</span>
-              </th>
+              <th className='d-none d-md-table-cell'>Rebalanced Allocation</th>
               <th className='text-center'>Actions</th>
             </tr>
           </thead>

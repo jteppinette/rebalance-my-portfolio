@@ -54,7 +54,7 @@ function Investment (props) {
           className='form-control'
         />
       </td>
-      <td>
+      <td className='d-none d-md-table-cell'>
         <NumberFormat
           name={`allocation-${props.index}`}
           value={props.allocation * 100}
