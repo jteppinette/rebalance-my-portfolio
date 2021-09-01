@@ -15,6 +15,7 @@ function Investment (props) {
       <td>
         <NumberFormat
           name={`balance-${props.index}`}
+          type='tel'
           value={props.balance}
           onValueChange={({ floatValue }) =>
             props.update('balance', floatValue)

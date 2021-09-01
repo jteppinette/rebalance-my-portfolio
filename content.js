@@ -256,6 +256,14 @@ function FAQ () {
         sometimes become "cut-off". If this occurs, you can horizontally scroll
         the table to find the column.
       </p>
+      <p>
+        <strong>How do I input fractional dollars on mobile devices?</strong>
+      </p>
+      <p>
+        To simplify data input, the telephone keyboard (which doesn't support
+        the period character) is used on mobile devices. If you need the
+        additional precision, please use a desktop browser.
+      </p>
     </div>
   )
 }
