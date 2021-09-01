@@ -6,10 +6,6 @@ function getAbsoluteDinero (d) {
   return Dinero({ amount: Math.abs(d.getAmount()) })
 }
 
-function getEmptyRebalances (investments) {
-  return investments.map(() => 0)
-}
-
 function getPerfectRebalances (targetBalance, investments) {
   return targetBalance
     .allocate(investments.map(investment => investment.target || 0))
@@ -69,4 +65,4 @@ function getLazyRebalances (
     .map(centsToDollars)
 }
 
-export { getEmptyRebalances, getPerfectRebalances, getLazyRebalances }
+export { getPerfectRebalances, getLazyRebalances }

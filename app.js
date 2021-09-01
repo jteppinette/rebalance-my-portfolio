@@ -9,11 +9,7 @@ import {
   InvalidTargetAllocationAlert,
   InsufficientFundsAlert
 } from './alerts.js'
-import {
-  getEmptyRebalances,
-  getPerfectRebalances,
-  getLazyRebalances
-} from './algorithms.js'
+import { getPerfectRebalances, getLazyRebalances } from './algorithms.js'
 
 import { dollarsToCents } from './utils'
 
@@ -69,7 +65,7 @@ function App () {
     ) !== 100
   const rebalances = (() => {
     if (hasInvalidTargetAllocation || hasInsufficientFunds) {
-      return getEmptyRebalances(investments)
+      return investments.map(() => 0)
     } else if (transfer.isZero()) {
       return getPerfectRebalances(targetBalance, investments)
     } else {
