@@ -93,21 +93,24 @@ function App () {
             }).add(rebalance)
           )
           .map(rebalanced => rebalanced.getAmount() / targetBalance.getAmount())
-  const missesTargetAllocation =
-    hasInvalidTargetAllocation || hasInsufficientFunds
-      ? false
-      : targetBalance
-          .allocate(investments.map(investment => investment.target || 0))
-          .map((allocation, index) =>
-            Dinero({ amount: dollarsToCents(rebalances[index]) })
-              .add(
-                Dinero({
-                  amount: dollarsToCents(investments[index].balance || 0)
-                })
-              )
-              .lessThan(allocation)
-          )
-          .some(v => v)
+  const missesTargetAllocation = (() => {
+    if (hasInvalidTargetAllocation || hasInsufficientFunds) {
+      return false
+    }
+    return targetBalance
+      .allocate(investments.map(investment => investment.target || 0))
+      .some((allocation, index) => {
+        const rebalance = Dinero({
+          amount: dollarsToCents(rebalances[index])
+        })
+        const balance = Dinero({
+          amount: dollarsToCents(investments[index].balance || 0)
+        })
+        const rebalanced = balance.add(rebalance)
+
+        return rebalanced.lessThan(allocation)
+      })
+  })()
 
   function addInvestment () {
     setInvestments([...investments, { symbol: '', balance: 0, target: 0 }])
