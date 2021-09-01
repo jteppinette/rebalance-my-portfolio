@@ -2,8 +2,6 @@ import React from 'react'
 import NumberFormat from 'react-number-format'
 import { Input, Button } from 'reactstrap'
 
-import { decimalToPercent, percentToDecimal } from './utils.js'
-
 function Investment (props) {
   return (
     <tr>

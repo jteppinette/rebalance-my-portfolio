@@ -15,7 +15,7 @@ import {
   getLazyRebalances
 } from './algorithms.js'
 
-import { dollarsToCents, decimalToPercent } from './utils'
+import { dollarsToCents } from './utils'
 
 import {
   Button,
