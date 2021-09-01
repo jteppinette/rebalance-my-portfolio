@@ -101,7 +101,9 @@ function App () {
           .map((allocation, index) =>
             Dinero({ amount: dollarsToCents(rebalances[index]) })
               .add(
-                Dinero({ amount: dollarsToCents(investments[index].balance) })
+                Dinero({
+                  amount: dollarsToCents(investments[index].balance || 0)
+                })
               )
               .lessThan(allocation)
           )
