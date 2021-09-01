@@ -45,7 +45,7 @@ function Investment (props) {
       <td>
         <NumberFormat
           name={`rebalance-${props.index}`}
-          value={props.rebalance}
+          value={props.rebalance.toUnit()}
           decimalScale={2}
           fixedDecimalScale={true}
           thousandSeparator={true}

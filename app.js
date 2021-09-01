@@ -67,7 +67,7 @@ function App () {
     ) !== 100
   const rebalances = (() => {
     if (hasInvalidTargetAllocation || hasInsufficientFunds) {
-      return investments.map(() => 0)
+      return investments.map(() => Dinero())
     } else if (transfer.isZero()) {
       return getPerfectRebalances(targetBalance, investments)
     } else {
@@ -84,7 +84,6 @@ function App () {
       return rebalances.map(() => 0)
     }
     return rebalances
-      .map(v => Dinero({ amount: dollarsToCents(v) }))
       .map((rebalance, index) => balances[index].add(rebalance))
       .map(rebalanced => rebalanced.getAmount() / targetBalance.getAmount())
   })()
@@ -95,11 +94,7 @@ function App () {
     return targetBalance
       .allocate(investments.map(investment => investment.target || 0))
       .some((allocation, index) => {
-        const rebalance = Dinero({
-          amount: dollarsToCents(rebalances[index])
-        })
-        const rebalanced = balances[index].add(rebalance)
-
+        const rebalanced = balances[index].add(rebalances[index])
         return rebalanced.lessThan(allocation)
       })
   })()

@@ -1,6 +1,6 @@
 import Dinero from 'dinero.js'
 
-import { dollarsToCents, centsToDollars } from './utils'
+import { dollarsToCents } from './utils'
 
 function getAbsoluteDinero (d) {
   return Dinero({ amount: Math.abs(d.getAmount()) })
@@ -10,14 +10,10 @@ function getPerfectRebalances (targetBalance, investments) {
   return targetBalance
     .allocate(investments.map(investment => investment.target || 0))
     .map((allocation, index) => {
-      return centsToDollars(
-        allocation
-          .subtract(
-            Dinero({
-              amount: dollarsToCents(investments[index].balance || 0)
-            })
-          )
-          .getAmount()
+      return allocation.subtract(
+        Dinero({
+          amount: dollarsToCents(investments[index].balance || 0)
+        })
       )
     })
 }
@@ -60,9 +56,7 @@ function getLazyRebalances (
 
       return rebalance
     })
-    .map(d => d.getAmount())
-    .map(v => v * (isDeposit ? 1 : -1))
-    .map(centsToDollars)
+    .map(d => d.multiply(isDeposit ? 1 : -1))
 }
 
 export { getPerfectRebalances, getLazyRebalances }
