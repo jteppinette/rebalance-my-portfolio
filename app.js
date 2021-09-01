@@ -79,7 +79,7 @@ function App () {
   })()
   const allocations = (() => {
     if (hasInvalidTargetAllocation || hasInsufficientFunds) {
-      return rebalancesmap(() => 0)
+      return rebalances.map(() => 0)
     }
     return rebalances
       .map(v => Dinero({ amount: dollarsToCents(v) }))
