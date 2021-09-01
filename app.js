@@ -29,8 +29,7 @@ import {
   Label,
   Navbar,
   NavbarBrand,
-  Table,
-  UncontrolledTooltip
+  Table
 } from 'reactstrap'
 
 function App () {
