@@ -48,9 +48,11 @@ function App () {
     }
   }, [isDeposit])
 
+  const balances = investments.map(investment =>
+    Dinero({ amount: dollarsToCents(investment.balance || 0) })
+  )
   const currentBalance = investments.reduce(
-    (sum, investment) =>
-      sum.add(Dinero({ amount: dollarsToCents(investment.balance || 0) })),
+    (sum, investment, index) => sum.add(balances[index]),
     Dinero()
   )
   const transfer = Dinero({
@@ -83,12 +85,7 @@ function App () {
     }
     return rebalances
       .map(v => Dinero({ amount: dollarsToCents(v) }))
-      .map((rebalance, index) => {
-        const balance = Dinero({
-          amount: dollarsToCents(investments[index].balance || 0)
-        })
-        return balance.add(rebalance)
-      })
+      .map((rebalance, index) => balances[index].add(rebalance))
       .map(rebalanced => rebalanced.getAmount() / targetBalance.getAmount())
   })()
   const missesTargetAllocation = (() => {
@@ -101,10 +98,7 @@ function App () {
         const rebalance = Dinero({
           amount: dollarsToCents(rebalances[index])
         })
-        const balance = Dinero({
-          amount: dollarsToCents(investments[index].balance || 0)
-        })
-        const rebalanced = balance.add(rebalance)
+        const rebalanced = balances[index].add(rebalance)
 
         return rebalanced.lessThan(allocation)
       })
