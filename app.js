@@ -35,8 +35,8 @@ import {
 
 function App () {
   const initialInvestments = [
-    { symbol: 'VBTLX', balance: 1603, target: 0.2 },
-    { symbol: 'VTSAX', balance: 8320, target: 0.8 }
+    { symbol: 'VBTLX', balance: 1603, target: 20 },
+    { symbol: 'VTSAX', balance: 8320, target: 80 }
   ]
 
   const [investments, setInvestments] = useState(initialInvestments)
@@ -65,7 +65,7 @@ function App () {
   const hasInsufficientFunds = targetBalance.isNegative()
   const hasInvalidTargetAllocation =
     investments.reduce(
-      (sum, investment) => sum + decimalToPercent(investment.target || 0),
+      (sum, investment) => sum + (investment.target || 0),
       0
     ) !== 100
   const rebalances = (() => {
