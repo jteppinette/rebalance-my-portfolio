@@ -2,6 +2,8 @@ import React from 'react'
 import NumberFormat from 'react-number-format'
 import { Input, Button } from 'reactstrap'
 
+import Icon from './icons'
+
 function Investment (props) {
   return (
     <tr>
@@ -72,7 +74,7 @@ function Investment (props) {
           disabled={props.isRemoveDisabled}
           color='danger'
         >
-          <i className='fas fa-minus'></i>
+          <Icon icon='minus' />
         </Button>
       </td>
     </tr>

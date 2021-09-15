@@ -12,6 +12,7 @@ import {
 import { getPerfectRebalances, getLazyRebalances } from './algorithms.js'
 
 import { dollarsToCents } from './utils'
+import Icon from './icons'
 
 import {
   Button,
@@ -130,7 +131,7 @@ function App () {
                     type='button'
                     onClick={() => setIsDeposit(!isDeposit)}
                   >
-                    <i className='fas fa-exchange-alt'></i>
+                    <Icon icon='exchange-alt' />
                   </Button>
                   <InputGroupText>
                     {isDeposit ? 'Deposit' : 'Withdraw'}
@@ -204,7 +205,7 @@ function App () {
         {hasInvalidTargetAllocation && <InvalidTargetAllocationAlert />}
         {hasInsufficientFunds && <InsufficientFundsAlert />}
         <Button onClick={addInvestment} color='dark' block>
-          <i className='fas fa-plus'></i> Add Investment
+          <Icon icon='plus' /> Add Investment
         </Button>
         <hr />
         <Summary
