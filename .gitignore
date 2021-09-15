@@ -4,4 +4,4 @@ dist
 
 npm-debug.log
 .DS_Store
-.cache
+.parcel-cache

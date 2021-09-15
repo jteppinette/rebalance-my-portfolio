@@ -35,3 +35,9 @@ $ npm run dev
 ```sh
 $ npm run build
 ```
+
+### Analyze Bundle Size
+
+```sh
+$ npm run build -- --detailed-report
+```

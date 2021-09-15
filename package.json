@@ -4,9 +4,14 @@
   "engines": {
     "node": "16.x"
   },
+  "targets": {
+    "default": {
+      "context": "browser"
+    }
+  },
   "scripts": {
     "dev": "parcel index.html",
-    "build": "parcel build --experimental-scope-hoisting index.html"
+    "build": "parcel build index.html"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.4",
@@ -18,9 +23,8 @@
     "reactstrap": "^8.9.0"
   },
   "devDependencies": {
-    "parcel-bundler": "^1.12.5",
-    "parcel-plugin-bundle-visualiser": "^1.2.0",
-    "parcel-plugin-prerender": "^1.4.1",
+    "@parcel/transformer-sass": "^2.0.0-rc.0",
+    "parcel": "^2.0.0-rc.0",
     "sass": "^1.41.0"
   }
 }
