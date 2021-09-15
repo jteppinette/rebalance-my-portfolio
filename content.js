@@ -68,44 +68,42 @@ function About () {
         precision.{' '}
       </p>
       <p>
-        <p>
-          The algorithm works in two ways based on how the calculator is being
-          used:
-        </p>
-        <ul>
-          <li>
-            <i>Deposit or Withdrawal</i>
-            <p>
-              <br />
-              The algorithm will attempt to meet the target allocation by
-              distributing the deposit or withdrawal amount across assets.
-            </p>
-            <p>
-              The algorithm will not allow any transactions of the opposite
-              type. e.g. You won't have to sell any assets if a deposit is
-              occuring and you won't have to buy any assets if a withdrawal is
-              occurring. This limits the number of transactions that need to
-              occur and prevents any unecessary taxable events.
-            </p>
-            <p>
-              However, this can prevent you from reaching a perfect target asset
-              allocation if the deposit/withdrawal amount is not high enough. If
-              this is the case, assets will be prioritized based on their order
-              in the table. i.e. Assets at the top of the table will have their
-              target asset allocation met before assets at the bottom.
-            </p>
-          </li>
-          <li>
-            <i>Exchange</i>
-            <p>
-              <br />
-              The algorithm will only use assets that exist in the portfolio to
-              reach a perfect target asset allocation. This will result in some
-              assets being sold and some being purchased.
-            </p>
-          </li>
-        </ul>
+        The algorithm works in two ways based on how the calculator is being
+        used:
       </p>
+      <ul>
+        <li>
+          <i>Deposit or Withdrawal</i>
+          <p>
+            <br />
+            The algorithm will attempt to meet the target allocation by
+            distributing the deposit or withdrawal amount across assets.
+          </p>
+          <p>
+            The algorithm will not allow any transactions of the opposite type.
+            e.g. You won't have to sell any assets if a deposit is occuring and
+            you won't have to buy any assets if a withdrawal is occurring. This
+            limits the number of transactions that need to occur and prevents
+            any unecessary taxable events.
+          </p>
+          <p>
+            However, this can prevent you from reaching a perfect target asset
+            allocation if the deposit/withdrawal amount is not high enough. If
+            this is the case, assets will be prioritized based on their order in
+            the table. i.e. Assets at the top of the table will have their
+            target asset allocation met before assets at the bottom.
+          </p>
+        </li>
+        <li>
+          <i>Exchange</i>
+          <p>
+            <br />
+            The algorithm will only use assets that exist in the portfolio to
+            reach a perfect target asset allocation. This will result in some
+            assets being sold and some being purchased.
+          </p>
+        </li>
+      </ul>
 
       <p>
         <strong>Privacy</strong>
